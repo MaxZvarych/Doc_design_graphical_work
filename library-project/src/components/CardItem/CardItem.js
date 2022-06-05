@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import { useHistory } from "react-router-dom";
 import course from "../../Icons/course.jpg";
-import {getAllUsers, deleteCource} from "../../containers/utils/Api"
+import {getAllUsers} from "../../containers/utils/Api"
 
 import {
   DeleteOutlined,
@@ -29,9 +29,9 @@ const CardItem = ({
 
  useEffect(() => {
   async function getCurrentUserType(){
-    const userID=myStorage.getItem(`ActiveUser`);
+    const userEmail=myStorage.getItem(`ActiveUser`);
     const users= await getAllUsers();
-    const user=users.find((el)=>el.id===userID);
+    const user=users.find((el)=>el.email===userEmail);
   setUserType(user.type)
 }
   getCurrentUserType()
@@ -42,11 +42,6 @@ const CardItem = ({
     history.push(`/item?id=${id}`);
   };
 
-  const handleDelete = async (id)=>{
-    const deletedCourse= await deleteCource(id);
-    refreshCourses();
-    return deletedCourse;
-  }
 
   return (
     <ItemWrapper>
@@ -64,7 +59,6 @@ const CardItem = ({
         }
         actions={userType==='admin'?[
           <SettingOutlined key='setting' onClick={handleClick} />,
-          <DeleteOutlined onClick={()=>handleDelete(id)} key='delete' />
         ]:
         [
           <SettingOutlined key='setting' onClick={handleClick} />

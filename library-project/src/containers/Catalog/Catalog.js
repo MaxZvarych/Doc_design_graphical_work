@@ -7,7 +7,7 @@ import {
 } from "./Catalog.styled";
 import CardItem from "../../components/CardItem/CardItem";
 import "antd/dist/antd.css";
-import {  getAllCources, postCourse } from "../utils/Api";
+import {  getAllBooks, postCourse } from "../utils/Api";
 import LoadElement from "../../components/loading/LoadElement";
 
 const Catalog = () => {
@@ -24,7 +24,7 @@ const Catalog = () => {
   useEffect(() => {
     console.log(cources)
     if (cources.length === 0) {
-      getAllCources().then((res) => {
+      getAllBooks().then((res) => {
         if (res !== undefined) {
           console.log(res)
 
@@ -34,8 +34,8 @@ const Catalog = () => {
     }
   },[]);
 
-  const refetchAllCources = async () => {
-    getAllCources().then((res) => {
+  const refetchAllBooks = async () => {
+    getAllBooks().then((res) => {
       if (res !== undefined) {
         console.log(res)
         setCources(res);
@@ -46,7 +46,7 @@ const Catalog = () => {
   async function submitData() {
     setAddCourceState("");
     postCourse({ title, price, isActive, certification, owner,id }).then((response) =>
-      refetchAllCources()
+      refetchAllBooks()
     );
   }
 
@@ -68,7 +68,7 @@ const Catalog = () => {
                       id={id}
                       title={title}
                       certification={certification}
-                      refreshCourses={refetchAllCources}
+                      refreshCourses={refetchAllBooks}
                     />
                 ) : (
                   <CardItem

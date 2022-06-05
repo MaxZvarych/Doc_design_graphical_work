@@ -14,14 +14,14 @@ import {
   FormWrapper
 } from "./Item.styled";
 import security from "../../../Icons/background2.jpg"; 
-import { buyCourse, getAllCources, postPayment } from "../../utils/Api";
+import { buyCourse, getAllBooks, postPayment } from "../../utils/Api";
 
 const Item = () => {
-  const findCourse = async(id) => {
-    const cources= await getAllCources();
-    const cource=cources.find((el)=>el.id===id);
-    console.log(cource)
-    return cource;
+  const findBook = async(id) => {
+    const books= await getAllBooks();
+    const book=books.find((el)=>el.id===id);
+    console.log(book)
+    return book;
   };
 
   let myStorage = window.localStorage;
@@ -51,7 +51,7 @@ const Item = () => {
  useEffect(() => {
   async function fillCourseData(){
   const idFromUrl=parseID();
-  const result= await findCourse(idFromUrl);
+  const result= await findBook(idFromUrl);
   setCourse(result)
 }
   fillCourseData()
@@ -104,7 +104,7 @@ const Item = () => {
 
                   <input
                     onChange={(e) => setCardNumber(e.target.value)}
-                    name='CourcecardNumber'
+                    name='bookcardNumber'
                     placeHolderName='text'
                     placeholder=' cardNumber'
                     value={cardNumber}

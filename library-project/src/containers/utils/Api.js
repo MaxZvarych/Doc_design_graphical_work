@@ -1,16 +1,16 @@
 import axios from "axios";
 
-const baseCourcesURL =
-  "http://localhost:8080/api/course";
+const baseBooksURL =
+  "http://127.0.0.1:8000/books/";
 const baseUserURL =
-  "http://localhost:8080/api/user";
+  "http://127.0.0.1:8000/users/";
 const basePaymentURL =
   "http://localhost:8080/api/payment";
 
-  //COURCES
-export const getAllCources = async () => {
+  //BookS
+export const getAllBooks = async () => {
   try {
-    let responseData = await axios.get(`${baseCourcesURL}/get-all`);
+    let responseData = await axios.get(`${baseBooksURL}`);
     console.log(responseData);
     return responseData.data;
   } catch {
@@ -18,9 +18,9 @@ export const getAllCources = async () => {
   }
 };
 
-export const deleteCource = async (id) => {
+export const deleteBook = async (id) => {
   try {
-    let responseData = await axios.delete(`${baseCourcesURL}/delete/{id}?id=${id}`);
+    let responseData = await axios.delete(`${baseBooksURL}/delete/{id}?id=${id}`);
     console.log(responseData);
     return responseData.data;
   } catch {
@@ -28,9 +28,9 @@ export const deleteCource = async (id) => {
   }
 };
 
-export const updateCource = async (id,body) => {
+export const updateBook = async (id,body) => {
   try {
-    let responseData = await axios.put(`${baseCourcesURL}/update/{id}?id=${id}`,body);
+    let responseData = await axios.put(`${baseBooksURL}/update/{id}?id=${id}`,body);
     console.log(responseData);
     return responseData.data;
   } catch {
@@ -41,7 +41,7 @@ export const updateCource = async (id,body) => {
 export const postCourse = async (body) => {
   // const json = JSON.stringify(body);
   try {
-    let responseData = await axios.post(`${baseCourcesURL}/create`, body);
+    let responseData = await axios.post(`${baseBooksURL}/create`, body);
     console.log(responseData);
     return responseData.data;
   } catch {
@@ -51,8 +51,10 @@ export const postCourse = async (body) => {
 
 //USERS
 export const getAllUsers = async () => {
+  let token='eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU0MTgwMDA0LCJpYXQiOjE2NTQxNzgyMDQsImp0aSI6ImFkOTQ0MzI0N2NlODQ0YmE4YjkyZTFkYjM0NTZhNDNiIiwidXNlcl9pZCI6MX0.87Y2QjgCurlV7-g3iwjOTAaFzTw7uxX23cRmwHzNFtY'
+
   try {
-    let responseData = await axios.get(`${baseUserURL}/get-all`);
+    let responseData = await axios.get(`${baseUserURL}`,{ headers: {"Authorization" : `Bearer ${token}`} });
     console.log(responseData);
     return responseData.data;
   } catch {
@@ -60,38 +62,18 @@ export const getAllUsers = async () => {
   }
 };
 
-export const deleteUser = async (id) => {
-  try {
-    let responseData = await axios.delete(`${baseUserURL}/delete/{id}?id=${id}`);
-    console.log(responseData);
-    return responseData.data;
-  } catch {
-    console.log("error, cant delete data");
-  }
-};
-
-export const updateUser = async (id,body) => {
-  try {
-    let responseData = await axios.put(`${baseUserURL}/update/{id}?id=${id}`,body);
-    console.log(responseData);
-    return responseData.data;
-  } catch {
-    console.log("error, cant update data");
-  }
-};
-
-export const postUser = async ({ id, type, phoneNumber, location, email, firstName, lastName}) => {
+export const postUser = async ({  status, email, firstName, lastName, password}) => {
   // const json = JSON.stringify(body);
+  let token='eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU0MTgwMDA0LCJpYXQiOjE2NTQxNzgyMDQsImp0aSI6ImFkOTQ0MzI0N2NlODQ0YmE4YjkyZTFkYjM0NTZhNDNiIiwidXNlcl9pZCI6MX0.87Y2QjgCurlV7-g3iwjOTAaFzTw7uxX23cRmwHzNFtY'
+  
   try {
-    let responseData = await axios.post(`${baseUserURL}/create`,{
-      id: `${id}`,
+    let responseData = await axios.post(`${baseUserURL}`,{
       email: `${email}`,
       firstName: `${firstName}`,
       lastName: `${lastName}`,
-      type: `${type}`,
-      phoneNumber: `${phoneNumber}`,
-      location: `${location}`
-    });
+      status: `${status}`,
+      password: `${password}`
+    },{ headers: {"Authorization" : `Bearer ${token}`} });
     console.log(responseData);
     return responseData.data;
   } catch(error) {

@@ -7,35 +7,35 @@ import {
   HomeImage,
   CardWrapper,
 } from "./Home.styled";
-import {  getAllCources } from "../utils/Api";
+import {  getAllBooks } from "../utils/Api";
 import CardItem from "../../components/CardItem/CardItem";
 import heading from "../../Icons/heading1.jpg";
 
 const Home = () => {
-  const [cources, setCources] = useState([]);
+  const [books, setBooks] = useState([]);
   let value = useRef([]);
 
-  const refetchAllCources = async () => {
-    getAllCources().then((res) => {
+  const refetchAllBooks = async () => {
+    getAllBooks().then((res) => {
       if (res !== undefined) {
-        setCources(res.slice(0, 3));
+        setBooks(res.slice(0, 3));
           value.current = res;
       }
     });
   };
 
   useEffect(() => {
-    if (cources.length === 0) {
-      refetchAllCources();
+    if (books.length === 0) {
+      refetchAllBooks();
     }
   }, []);
 
-  const showcources = () => {
-    setCources(value.current);
+  const showbooks = () => {
+    setBooks(value.current);
     setClicked(true);
   };
-  const hidecources = () => {
-    setCources(value.current.slice(0, 3));
+  const hidebooks = () => {
+    setBooks(value.current.slice(0, 3));
     setClicked(false);
   };
 
@@ -73,7 +73,7 @@ const Home = () => {
         />
       </Heading>
       <CardWrapper>
-        {cources.map(({ id,owner,price,isActive,title,certification }) => (
+        {books.map(({ id,owner,price,isActive,title,certification }) => (
           <CardItem
           owner={owner}
           price={price}
@@ -81,14 +81,14 @@ const Home = () => {
             id={id}
             title={title}
             certification={certification}
-            refreshCourses={refetchAllCources}
+            refreshCourses={refetchAllBooks}
           />
         ))}
       </CardWrapper>
       {!isClicked ? (
-        <HomeButton onClick={showcources}>Show more!</HomeButton>
+        <HomeButton onClick={showbooks}>Show more!</HomeButton>
       ) : (
-        <HomeButton onClick={hidecources}>Show less!</HomeButton>
+        <HomeButton onClick={hidebooks}>Show less!</HomeButton>
       )}
     </Wrapper>
   );

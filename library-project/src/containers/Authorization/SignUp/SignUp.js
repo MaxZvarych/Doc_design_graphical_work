@@ -24,26 +24,25 @@ const SignUp = () => {
     history.push("/login");
   };
 
-  const checkIfUserExist = async (id, password) => {
+  const checkIfUserExist = async (email ) => {
     const users= await getAllUsers();
-    const user=users.find((el)=>el.id===id);
-    if(user) {
-      myStorage.setItem(`${user.firstName} ${user.lastName}`, password);
+    const user=users.find((el)=>el.email===email);
+    if(user) { 
       return true
     }
     return false
   }
-  const createUser = async ({ id, type, phoneNumber, location, email, firstName, lastName , password }) =>{
-    myStorage.setItem(`${firstName} ${lastName}`, password);
-    myStorage.setItem(`ActiveUser`, id);
+  const createUser = async ({ status,  email, firstName, lastName , password }) =>{
+        
+    myStorage.setItem(`ActiveUser`, email);
     myStorage.setItem("isAuthorized", true);
-   console.log({ id, type, phoneNumber, location, email, firstName, lastName , password })
-    const createdUser= await postUser({id, type, phoneNumber, location, email, firstName, lastName});
-    console.log(createdUser);
-    return createdUser;
+   console.log({  status, email, firstName, lastName , password })
+    const responseWithCreds= await postUser({ status , email, firstName, lastName, password});
+    console.log(responseWithCreds);
+    return responseWithCreds;
   }
   const [signUpError, setSignUpError] = useState("")
-  const [typeState, setType] = useState("")
+  const [statusState, setStatus] = useState("")
 
   useEffect(() => {
     console.log(signUpError)
@@ -54,13 +53,10 @@ const SignUp = () => {
         <TitleStyled>Register the new account</TitleStyled>
         <FormikStyled
           initialValues={{
-            id:"",
             email: "",
             firstName: "",
             lastName: "",
-            type:"admin",
-            phoneNumber:"",
-            location:"",
+            status:"admin",
             password: "",
             confirmPassword: "",
           }}
@@ -76,8 +72,8 @@ const SignUp = () => {
               .oneOf([Yup.ref("password"), null], "Passwords must match")
               .required("Please input a value"),
           })}
-          onSubmit={ async ({ id, type, phoneNumber, location, email, firstName, lastName , password },{setSubmitting}) => {
-            const userFound = await checkIfUserExist(id,password);
+          onSubmit={ async ({  status, email, firstName, lastName , password },{setSubmitting}) => {
+            const userFound = await checkIfUserExist(email);
             console.log(userFound)
             if(userFound) {
             setSignUpError("User Existing");
@@ -85,10 +81,10 @@ const SignUp = () => {
           }
           else{
             setSignUpError("");
-            const typeToPass=typeState?typeState:type
-              await createUser({ id,type:typeToPass , phoneNumber, location, email, firstName, lastName, password })
+            const statusToPass=statusState?statusState:status
+              const responseWithCreds = await createUser({ status:statusToPass,  email, firstName, lastName, password })
               history.push("/home");
-              window.location.reload();
+              window.reload();
           }
            
           }}
@@ -96,26 +92,22 @@ const SignUp = () => {
           {({ handleSubmit }) => (
             <FormStyled onSubmit={handleSubmit}>
               <InputWrapper>
-              <InputContainer>
-                  <b>Id:</b>
-                  <InputComponent title="ID" name="id" type="id" 
-                  />
-                  <FormikErrorMessage name="id" component="div" />
-                </InputContainer>
-                <b>Type:</b>
-                <select as="select" name="type" onChange={(e)=>{setType(e.target.value)}}
+             
+                <b>status:</b>
+                <select as="select" name="status" onChange={(e)=>{setStatus(e.target.value)}}
                 style={{height:"20px",minWidth: "25vw",
                   borderRadius: "8px",
                   maxWidth: "40vw"}}>       
-             <option value="admin">admin</option>
-             <option value="user">user</option>
+             <option value="librarian">Librarian</option>
+             <option value="cultural figure">Cultural figure</option> 
+             <option value="regular customer">Regular customer</option>
            </select>
                 <InputContainer>
                   <b>First Name:</b>
                   <InputComponent
                     title="Firstname"
                     name="firstName"
-                    type="text"
+                    status="text"
                   />
                   <FormikErrorMessage name="firstName" component="div" />
                 </InputContainer>
@@ -124,31 +116,14 @@ const SignUp = () => {
                   <InputComponent
                     title="Lasttname"
                     name="lastName"
-                    type="text"
+                    status="text"
                   />
                   <FormikErrorMessage name="lastName" component="div" />
                 </InputContainer>
-                <InputContainer>
-                  <b>Phone Number:</b>
-                  <InputComponent
-                    title="Phone Number"
-                    name="phoneNumber"
-                    type="text"
-                  />
-                  <FormikErrorMessage name="lastName" component="div" />
-                </InputContainer>
-                <InputContainer>
-                  <b>Location:</b>
-                  <InputComponent
-                    title="Location"
-                    name="location"
-                    type="text"
-                  />
-                  <FormikErrorMessage name="lastName" component="div" />
-                </InputContainer>
+               
                 <InputContainer>
                   <b>Email:</b>
-                  <InputComponent title="Email" name="email" type="email" />
+                  <InputComponent title="Email" name="email" status="email" />
                   <FormikErrorMessage name="email" component="div" />
                 </InputContainer>
                 <InputContainer>
@@ -157,7 +132,7 @@ const SignUp = () => {
                   // onChange={(e)=>setPassword(e.target.value)}
                     title="Password"
                     name="password"
-                    type="password"
+                    status="password"
                   />
                   <FormikErrorMessage name="password" component="div" />
                 </InputContainer>
@@ -166,7 +141,7 @@ const SignUp = () => {
                   <InputComponent
                     title="Confirm password"
                     name="confirmPassword"
-                    type="password"
+                    status="password"
                   />
                   <FormikErrorMessage name="confirmPassword" component="div" />
                 </InputContainer>
@@ -175,7 +150,7 @@ const SignUp = () => {
               {signUpError==="User Existing"?<h1>This User already exist, please create another one or sign IN</h1>:<></>}
                 <SignInText onClick={toSignIn}>Sign in</SignInText>
               </AlreadyMemberWrapper>
-              <SignUpButton type="submit"  >SIGN ME UP</SignUpButton>
+              <SignUpButton status="submit"  >SIGN ME UP</SignUpButton>
             </FormStyled>
           )}
         </FormikStyled>

@@ -29,7 +29,7 @@ const LogIn = () => {
     const users= await getAllUsers();
     const user=users.find((el)=>`${el.firstName} ${el.lastName}`===username);
     console.log(user)
-    myStorage.setItem(`ActiveUser`, user.id);
+    myStorage.setItem(`ActiveUser`, user.email);
     if(user) {
       console.log(user.id)
       myStorage.setItem(`${user.firstName} ${user.lastName}`, password);
@@ -61,7 +61,7 @@ const LogIn = () => {
               async function logUserProps(){
               const users= await getAllUsers();
               const user=users.find((el)=>`${el.firstName} ${el.lastName}`===userName);
-              myStorage.setItem(`ActiveUser`, user.id);
+              myStorage.setItem(`ActiveUser`, user.email);
               myStorage.setItem("isAuthorized", true);
               history.push("/home");
               window.location.reload();
