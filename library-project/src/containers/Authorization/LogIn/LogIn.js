@@ -16,7 +16,7 @@ import {
   SignUpText,
   ParagraphStyled,
 } from "./LogIn.styled";
-import { getAllUsers } from "../../utils/Api";
+import { getAllUsers,signIn } from "../../utils/Api";
 
 const LogIn = () => {
   let history = useHistory();
@@ -25,9 +25,9 @@ const LogIn = () => {
     history.push("/signup");
   };
 
-  const checkIfUserExist = async (username, password) => {
+  const checkIfUserExist = async (email, password) => {
     const users= await getAllUsers();
-    const user=users.find((el)=>`${el.firstName} ${el.lastName}`===username);
+    const user=users.find((el)=>`${el.firstName} ${el.lastName}`===email);
     console.log(user)
     myStorage.setItem(`ActiveUser`, user.email);
     if(user) {
@@ -43,12 +43,11 @@ const LogIn = () => {
         <TitleStyled>Log into your account</TitleStyled>
         <FormikStyled
           initialValues={{
-            userName: "",
             email: "",
             password: "",
           }}
           validationSchema={Yup.object({
-            userName: Yup.string()
+            email: Yup.string()
               .min(3, "Must be at least 3 characters")
               .max(30, "Must be at most 30 characters")
               .required("Please input a value"),
@@ -56,38 +55,41 @@ const LogIn = () => {
               .min(3, "Must be at least 3 characters")
               .required("Please input a value"),
           })}
-          onSubmit={({ userName, password }) => {
-            if (myStorage.getItem(`${userName}`) === password) {
-              async function logUserProps(){
-              const users= await getAllUsers();
-              const user=users.find((el)=>`${el.firstName} ${el.lastName}`===userName);
-              myStorage.setItem(`ActiveUser`, user.email);
+          onSubmit={({ email, password }) => {
+            console.log(email,password)
+              async function logUserProps(email,password){
+              
+              const credentials = await signIn({email,password});
+              console.log(credentials)
+             if(credentials){ 
+               myStorage.setItem(`ActiveUser`, email);
+               myStorage.setItem(`AccessToken`, credentials.access);
+               myStorage.setItem(`RefreshToken`, credentials.refresh);
               myStorage.setItem("isAuthorized", true);
               history.push("/home");
               window.location.reload();
+            }else{
+              console.log(`You entered incorrect credentials`)
+              alert(`You entered incorrect credentials`)
             }
-              logUserProps();
-            } 
-            else if(checkIfUserExist(userName,password))
-            {
-              myStorage.setItem("isAuthorized", true);
-              history.push("/home");
-              window.location.reload();
             }
-            else alert("You entered incorrect password");
+              logUserProps(email,password);
+            
+            
+            //  alert("You entered incorrect password");
           }}
         >
           {({ handleSubmit }) => (
             <FormStyled onSubmit={handleSubmit}>
               <InputWrapper>
                 <InputContainer>
-                  <b>Username:</b>
+                  <b>Email:</b>
                   <InputComponent
-                    title="Username"
-                    name="userName"
+                    title="email"
+                    name="email"
                     type="text"
                   />
-                  <FormikErrorMessage name="userName" component="div" />
+                  <FormikErrorMessage name="email" component="div" />
                 </InputContainer>
                 <InputContainer>
                   <b>Password:</b>

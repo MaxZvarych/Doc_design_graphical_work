@@ -34,11 +34,11 @@ const SignUp = () => {
   }
   const createUser = async ({ status,  email, firstName, lastName , password }) =>{
         
-    myStorage.setItem(`ActiveUser`, email);
-    myStorage.setItem("isAuthorized", true);
-   console.log({  status, email, firstName, lastName , password })
+    // myStorage.setItem(`ActiveUser`, email);
+    // myStorage.setItem("isAuthorized", true);
+  //  console.log({  status, email, firstName, lastName , password })
     const responseWithCreds= await postUser({ status , email, firstName, lastName, password});
-    console.log(responseWithCreds);
+    // console.log(responseWithCreds);
     return responseWithCreds;
   }
   const [signUpError, setSignUpError] = useState("")
@@ -56,7 +56,7 @@ const SignUp = () => {
             email: "",
             firstName: "",
             lastName: "",
-            status:"admin",
+            status:"librarian",
             password: "",
             confirmPassword: "",
           }}
@@ -83,7 +83,7 @@ const SignUp = () => {
             setSignUpError("");
             const statusToPass=statusState?statusState:status
               const responseWithCreds = await createUser({ status:statusToPass,  email, firstName, lastName, password })
-              history.push("/home");
+              history.push("/login");
               window.reload();
           }
            

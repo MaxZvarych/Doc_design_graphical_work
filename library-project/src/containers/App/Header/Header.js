@@ -24,6 +24,8 @@ const Header = () => {
   const logout = () => {
     myStorage.setItem("isAuthorized", false);
     myStorage.setItem(`ActiveUser`, '');
+    myStorage.setItem(`RefreshToken`, '');
+    myStorage.setItem(`AccessToken`, '');
     window.location.reload();
   };
   return (

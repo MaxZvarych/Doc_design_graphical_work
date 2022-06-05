@@ -4,8 +4,11 @@ const baseBooksURL =
   "http://127.0.0.1:8000/books/";
 const baseUserURL =
   "http://127.0.0.1:8000/users/";
-const basePaymentURL =
-  "http://localhost:8080/api/payment";
+const baseTokenUrl =
+  "http://127.0.0.1:8000/token/";
+
+  const token='eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU1MDQ0MDkxLCJpYXQiOjE2NTQ0MzkyOTEsImp0aSI6IjgwZTY2ZGM5ZjMzNTRkZTRhYWEwYWNlMTFlZjZmNWQwIiwidXNlcl9pZCI6MTN9.vew2SARmaQF_TARx4_qSMiaef34BJ_o-bCf0vs--z-U'
+
 
   //BookS
 export const getAllBooks = async () => {
@@ -49,10 +52,25 @@ export const postCourse = async (body) => {
   }
 };
 
+//AUTH
+
+export const signIn = async ({ email, password}) => {
+  console.log(email,password)
+  try {
+    let responseData = await axios.post(`${baseTokenUrl}`,{
+      email: `${email}`,
+      password: `${password}`
+    },{ headers: {"Authorization" : `Bearer ${token}`} });
+    console.log(responseData);
+    return responseData.data;
+  } catch(error) {
+    console.log("error, cant post data", error);
+  }
+};
+
 //USERS
 export const getAllUsers = async () => {
-  let token='eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU0MTgwMDA0LCJpYXQiOjE2NTQxNzgyMDQsImp0aSI6ImFkOTQ0MzI0N2NlODQ0YmE4YjkyZTFkYjM0NTZhNDNiIiwidXNlcl9pZCI6MX0.87Y2QjgCurlV7-g3iwjOTAaFzTw7uxX23cRmwHzNFtY'
-
+ 
   try {
     let responseData = await axios.get(`${baseUserURL}`,{ headers: {"Authorization" : `Bearer ${token}`} });
     console.log(responseData);
@@ -64,14 +82,13 @@ export const getAllUsers = async () => {
 
 export const postUser = async ({  status, email, firstName, lastName, password}) => {
   // const json = JSON.stringify(body);
-  let token='eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU0MTgwMDA0LCJpYXQiOjE2NTQxNzgyMDQsImp0aSI6ImFkOTQ0MzI0N2NlODQ0YmE4YjkyZTFkYjM0NTZhNDNiIiwidXNlcl9pZCI6MX0.87Y2QjgCurlV7-g3iwjOTAaFzTw7uxX23cRmwHzNFtY'
-  
+ 
   try {
     let responseData = await axios.post(`${baseUserURL}`,{
       email: `${email}`,
-      firstName: `${firstName}`,
-      lastName: `${lastName}`,
-      status: `${status}`,
+      first_name: `${firstName}`,
+      last_name: `${lastName}`,
+      status: status?`${status}`:status,
       password: `${password}`
     },{ headers: {"Authorization" : `Bearer ${token}`} });
     console.log(responseData);
