@@ -3,7 +3,7 @@ import background from "../../Icons/nav.jpg";
 import background1 from "../../Icons/home-background1.jpg";
 
 export const GlobalWrapper = styled.div`
-  background: url(${background1}) repeat-y;
+  background: url(${background1}) repeat-x;
   min-height: 80vh;
   width: 100vw;
 `;

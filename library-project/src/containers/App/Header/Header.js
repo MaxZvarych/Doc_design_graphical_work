@@ -17,7 +17,7 @@ import {
   LogoutOutlined,
 } from "@ant-design/icons";
 import { useHistory } from "react-router-dom";
-import logo from "../../../Icons/logo.png";
+import logo from "../../../Icons/logo_books_1.png";
 
 const Header = () => {
   let myStorage = window.localStorage;
@@ -31,7 +31,7 @@ const Header = () => {
   return (
     <HeaderBackground>
       <Wrapper>
-        <HeaderImage src={logo} alt="Logo_image" height="50px" />
+        <HeaderImage src={logo} alt="Logo_image" height="130px" width="300px" />
         <Slogan>Clients choose us!</Slogan>
         <SocialNetworksBar>
           <a href="https://www.youtube.com/">

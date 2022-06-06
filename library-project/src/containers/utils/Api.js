@@ -1,4 +1,5 @@
 import axios from "axios";
+import {getStorageValue, useLocalStorage} from "./Hooks/useLocalStorageHook"
 
 const baseBooksURL =
   "http://127.0.0.1:8000/books/";
@@ -7,13 +8,14 @@ const baseUserURL =
 const baseTokenUrl =
   "http://127.0.0.1:8000/token/";
 
-  const token='eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU1MDQ0MDkxLCJpYXQiOjE2NTQ0MzkyOTEsImp0aSI6IjgwZTY2ZGM5ZjMzNTRkZTRhYWEwYWNlMTFlZjZmNWQwIiwidXNlcl9pZCI6MTN9.vew2SARmaQF_TARx4_qSMiaef34BJ_o-bCf0vs--z-U'
+  const token= localStorage.getItem('AccessToken')
 
 
   //BookS
 export const getAllBooks = async () => {
   try {
-    let responseData = await axios.get(`${baseBooksURL}`);
+    console.log(token)
+    let responseData = await axios.get(`${baseBooksURL}`,{ headers: {"Authorization" : `Bearer ${token}`} });
     console.log(responseData);
     return responseData.data;
   } catch {
@@ -73,7 +75,7 @@ export const getAllUsers = async () => {
  
   try {
     let responseData = await axios.get(`${baseUserURL}`,{ headers: {"Authorization" : `Bearer ${token}`} });
-    console.log(responseData);
+    // console.log(responseData);
     return responseData.data;
   } catch {
     console.log("error, cant fetch data");

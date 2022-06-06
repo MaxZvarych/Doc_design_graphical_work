@@ -44,25 +44,18 @@ const Home = () => {
     <Wrapper>
       <Heading>
         <HeadingTextButton>
+          <h1>General Rules</h1>
           <p>
-            The New York Stock Exchange (sometimes referred to as "The Big
-            Board") provides a means for buyers and sellers to trade shares of
-            stock in companies registered for public trading. The NYSE is open
-            for trading Monday through Friday from 9:30 am – 4:00 pm ET, with
-            the exception of holidays declared by the Exchange in advance. The
-            NYSE trades in a continuous auction format, where traders can
-            execute stock transactions on behalf of investors. They will gather
-            around the appropriate post where a specialist broker, who is
-            employed by a NYSE member firm (that is, he/she is not an employee
-            of the New York Stock Exchange), acts as an auctioneer in an open
-            outcry auction market environment to bring buyers and sellers
-            together and to manage the actual auction. They do on occasion
-            (approximately 10% of the time) facilitate the trades by committing
-            their own capital and as a matter of course disseminate information
-            to the crowd that helps to bring buyers and sellers together. The
-            auction process moved toward automation in 1995 through the use of
-            wireless hand held computers (HHC). The system enabled traders to
-            receive and execute orders electronically via wireless transmission.
+          
+Strict silence, decorum and discipline must be maintained in the library. Use of cell-phones is also not allowed
+Smoking, eating, sleeping and talking loudly are strictly prohibited in the library
+Documents taken out of the shelves must be left on the table. Replacing the books on shelves is not encouraged as it may get misplaced. Misplaced book is like a lost book
+A non-member can use the library material on the premises with the permission of the Librarian.
+Readers should not mark, underline, dog-ear, write, tear pages or otherwise damage the library documents.
+Newspapers, magazines and journals must be read only in the library on specific tables and should not be taken to any other reading areas.
+No library material can be taken out of the library without  permission. Unauthorized removal of anything belonging to the library will be treated as theft and dealt accordingly.
+Any  one  who  violates  the  rules  and  regulations  of  the  library  would  be  liable  to  lose  the  privilege  of  library membership and may be debarred from using the library facilities.
+Suggestions on all aspects,of library services are welcome.
           </p>
         </HeadingTextButton>
         <HomeImage

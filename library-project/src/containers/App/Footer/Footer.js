@@ -14,13 +14,13 @@ import Icon, {
   YoutubeOutlined,
   FacebookOutlined,
 } from "@ant-design/icons";
-import logo from "../../../Icons/logo.png";
+import logo from "../../../Icons/logo_books_1.png";
 
 const Footer = () => {
   return (
     <FooterBackground>
       <Wrapper>
-        <FooterImage src={logo} alt="Logo_image" height="50px" />
+        <FooterImage src={logo} alt="Logo_image" height="130px" width="300px" />
         <Slogan>Clients choose us!</Slogan>
         <SocialNetworksBar>
           <a href="https://www.youtube.com/">
@@ -42,7 +42,7 @@ const Footer = () => {
         <p>
           Phone: +1 800 559 6580 &nbsp; Email:{" "}
           <a href="#" class="link">
-            info@security.com
+            info@bookstore.com
           </a>{" "}
           <br />
           © 2012 Security Group <br />

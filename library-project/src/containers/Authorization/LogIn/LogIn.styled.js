@@ -5,7 +5,7 @@ import { Formik } from "formik";
 import { Form, Field, ErrorMessage } from "formik";
 
 export const GlobalWrapper = styled.div`
-  background: url(${background1}) repeat-y;
+  background: url(${background1}) repeat-x;
   max-height: 80vh;
   width: 100vw;
 `;

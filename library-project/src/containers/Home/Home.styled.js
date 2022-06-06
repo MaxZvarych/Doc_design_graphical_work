@@ -2,7 +2,7 @@ import styled from "styled-components";
 import background from "../../Icons/home-background1.jpg";
 
 export const Wrapper = styled.div`
-  /* background: url(${background}) no-repeat; */
+  /* background: url(${background}) repeat-x; */
   width: 100vw;
   /* height: 125vh; */
 

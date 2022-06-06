@@ -2,13 +2,13 @@ import Icon from "@ant-design/icons";
 import styled from "styled-components";
 
 export const HeaderBackground = styled.div`
-  background-color: #000000;
+  background-color: #292929;
   width: 100vw;
 `;
 
 export const Wrapper = styled.div`
   display: flex;
-  background-color: #000000;
+  background-color: #292929;
   align-items: center;
   height: 130px;
   margin: 0px 15vw;
@@ -17,9 +17,9 @@ export const Wrapper = styled.div`
 export const Slogan = styled.div`
   margin: 10px 0 10px 30px;
   float: left;
-  border-left: #2f2b2b 1px solid;
+  border-left: #fff 1px solid;
   font: 12px/22px Arial, Helvetica, sans-serif;
-  color: #8f8b8c;
+  color: #fff;
   text-align: center;
   height: 35px;
   font-size: 22px;

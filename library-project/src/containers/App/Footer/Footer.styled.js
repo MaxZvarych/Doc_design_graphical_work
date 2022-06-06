@@ -2,14 +2,14 @@ import Icon from "@ant-design/icons";
 import styled from "styled-components";
 
 export const FooterBackground = styled.div`
-  background-color: #000000;
+  background-color: #292929;
   width: 100vw;
 `;
 
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: #000000;
+  background-color: #292929;
   align-items: center;
   margin: 0px 15vw;
   p {
