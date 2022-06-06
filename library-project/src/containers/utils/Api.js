@@ -3,6 +3,8 @@ import {getStorageValue, useLocalStorage} from "./Hooks/useLocalStorageHook"
 
 const baseBooksURL =
   "http://127.0.0.1:8000/books/";
+const baseAuthorURL =
+  "http://127.0.0.1:8000/authors/";
 const baseUserURL =
   "http://127.0.0.1:8000/users/";
 const baseTokenUrl =
@@ -14,7 +16,6 @@ const baseTokenUrl =
   //BookS
 export const getAllBooks = async () => {
   try {
-    console.log(token)
     let responseData = await axios.get(`${baseBooksURL}`,{ headers: {"Authorization" : `Bearer ${token}`} });
     console.log(responseData);
     return responseData.data;
@@ -25,7 +26,7 @@ export const getAllBooks = async () => {
 
 export const deleteBook = async (id) => {
   try {
-    let responseData = await axios.delete(`${baseBooksURL}/delete/{id}?id=${id}`);
+    let responseData = await axios.delete(`${baseBooksURL}${id}`,{ headers: {"Authorization" : `Bearer ${token}`} });
     console.log(responseData);
     return responseData.data;
   } catch {
@@ -33,9 +34,11 @@ export const deleteBook = async (id) => {
   }
 };
 
-export const updateBook = async (id,body) => {
+//Authors
+
+export const getAuthor = async (id) => {
   try {
-    let responseData = await axios.put(`${baseBooksURL}/update/{id}?id=${id}`,body);
+    let responseData = await axios.get(`${baseAuthorURL}${id}`,{ headers: {"Authorization" : `Bearer ${token}`} });
     console.log(responseData);
     return responseData.data;
   } catch {
@@ -43,16 +46,6 @@ export const updateBook = async (id,body) => {
   }
 };
 
-export const postCourse = async (body) => {
-  // const json = JSON.stringify(body);
-  try {
-    let responseData = await axios.post(`${baseBooksURL}/create`, body);
-    console.log(responseData);
-    return responseData.data;
-  } catch {
-    console.log("error, cant fetch data");
-  }
-};
 
 //AUTH
 

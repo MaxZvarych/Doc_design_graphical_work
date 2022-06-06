@@ -7,7 +7,7 @@ import {
 } from "./Catalog.styled";
 import CardItem from "../../components/CardItem/CardItem";
 import "antd/dist/antd.css";
-import {  getAllBooks, postCourse } from "../utils/Api";
+import {  getAllBooks } from "../utils/Api";
 import LoadElement from "../../components/loading/LoadElement";
 
 const Catalog = () => {
@@ -43,11 +43,11 @@ const Catalog = () => {
     });
   };
 
-  async function submitData() {
-    setAddCourceState("");
-    postCourse({ title, price, isActive, certification, owner,id }).then((response) =>
-      refetchAllBooks()
-    );
+  const fetchAuthor= async (id)=>{
+    getAuthor(id).then((res)=>{
+      console.log(res)
+      return res
+    })
   }
 
   return (
@@ -56,122 +56,24 @@ const Catalog = () => {
         <>
           <CardWrapper>
             {cources.map(
-              ({ title, price, isActive, certification, owner, id }, index) => {
-                return index === 0 ||
-                  index === 1 ||
-                  index === 2 ||
-                  index === 3 ? (
+              ({ id,author,original_weekly_rent_price,number_of_copies,condition,name,genre,number_of_pages }, index) => {
+                // const bookOwner= fetchAuthor(author)
+                return (
                     <CardItem
-                    owner={owner}
-                    price={price}
-                    isActive={isActive}
+                    owner="JK Rowling"
+                    original_weekly_rent_price={original_weekly_rent_price}
+                    number_of_copies={number_of_copies}
                       id={id}
-                      title={title}
-                      certification={certification}
+                      name={name}
+                      genre={genre}
+                      number_of_pages={number_of_pages}
+                      condition={condition}
                       refreshCourses={refetchAllBooks}
                     />
-                ) : (
-                  <CardItem
-                    title={title}
-                    price={price}
-                    isActive={isActive}
-                    id={id}
-                    certification={certification}
-                    owner={owner}
-                  />
-                );
+                ) 
               }
             )}
           </CardWrapper>
-          <AddCourceWrapper>
-            {
-            addCourceState === "" ? (
-              <button
-                onClick={() => {
-                  setAddCourceState("Adding a Cource");
-                }}
-              >
-                Add new Course
-              </button>
-            ) : (
-              <FormWrapper>
-                <form onSubmit={submitData}>
-                  <label>Cource owner</label>
-
-                  <input
-                    onChange={(e) => setOwner(e.target.value)}
-                    name='Courceowner'
-                    title='text'
-                    placeholder='Cource owner'
-                    value={owner}
-                  />
-
-                  <label>Cource certification(indentifier, exam pass date and demanded result)</label>
-                  <input
-                    onChange={(e) => setCertification({...certification,id:e.target.value})}
-                    name='CertificationID'
-                    title='string'
-                    placeholder='Certification identifier'
-                  />
-                  <input
-                    onChange={(e) => setCertification({...certification,receiveDate:e.target.value})}
-                    name='CertificationReceiveDate'
-                    title='string'
-                    placeholder='Certification pass Date'
-                  />
-                 
-                    <select onChange={(e) => {console.log(e.target.value);setCertification({...certification,result:e.target.value})}} name='title'>
-                    <option value='excelent'>excelent</option>
-                    <option value='good'>good</option>
-                    <option value='satisfying'>satisfying</option>
-                    <option value='could be better'>could be better</option>
-                    <option value='polino'>polino</option>
-                  </select>
-                
-
-                  <label>Cource isActive</label>
-
-                  <input
-                    onChange={(e) => {
-                      setIsActive(e.target.checked)
-                      }}
-                    name='CourceisActive'
-                    type="checkbox"
-                    title='number'
-                  />
-
-                  <label>Cource price</label>
-
-                  <input
-                    onChange={(e) => setPrice(e.target.value)}
-                    name='Courceprice'
-                    title='number'
-                    placeholder='Cource price'
-                  />
-
-                  <label>Cource's id</label>
-
-                  <input
-                    onChange={(e) => setId(e.target.value)}
-                    name='courceId'
-                    title='number'
-                    placeholder='Cource id'
-                  />
-
-                  <label>title</label>
-
-                  <input
-                  onChange={(e) => setTitle(e.target.value)}
-                  name='CourceTitle'
-                  title='string'
-                  placeholder='Cource title'  />
-
-                  <button title='submit'>Submit</button>
-                </form>
-              </FormWrapper>
-            )
-          }
-          </AddCourceWrapper>
         </>
       ) : (
         <LoadElement></LoadElement>

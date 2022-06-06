@@ -4,6 +4,7 @@ import background1 from "../../Icons/home-background1.jpg";
 
 export const GlobalWrapper = styled.div`
   background: url(${background1}) repeat-x;
+  background-size: 3000px 2000px;
   min-height: 80vh;
   width: 100vw;
 `;

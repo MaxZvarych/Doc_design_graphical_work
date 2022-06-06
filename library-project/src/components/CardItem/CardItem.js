@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import { useHistory } from "react-router-dom";
 import course from "../../Icons/course.jpg";
-import {getAllUsers} from "../../containers/utils/Api"
+import {getAllUsers, deleteBook} from "../../containers/utils/Api"
 
 import {
   DeleteOutlined,
@@ -14,13 +14,15 @@ const { Meta } = CardStyled;
 
 const CardItem = ({
   imageSrc = course,
-  isActive = true,
-  price = "30000$",
+  number_of_copies = 40,
+  original_weekly_rent_price = "30000$",
   owner = "Masya",
-  title = "Nice Course",
-  certification,
+  name = "Nice book",
+  genre="Fantasy",
+  condition='Minor damage',
+  number_of_pages=420,
   id,
-  refreshCourses
+  refreshBooks
 }) => {
   let history = useHistory();
   let myStorage = window.localStorage;
@@ -32,7 +34,7 @@ const CardItem = ({
     const userEmail=myStorage.getItem(`ActiveUser`);
     const users= await getAllUsers();
     const user=users.find((el)=>el.email===userEmail);
-  setUserType(user.type)
+  setUserType(user.is_admin?'admin':null)
 }
   getCurrentUserType()
  }, [])
@@ -42,6 +44,11 @@ const CardItem = ({
     history.push(`/item?id=${id}`);
   };
 
+  const handleDelete = async (id)=>{
+    const deletedCourse= await deleteBook(id);
+    refreshBooks();
+    return deletedCourse;
+  }
 
   return (
     <ItemWrapper>
@@ -59,31 +66,27 @@ const CardItem = ({
         }
         actions={userType==='admin'?[
           <SettingOutlined key='setting' onClick={handleClick} />,
+          <DeleteOutlined onClick={()=>handleDelete(id)} key='delete' />
         ]:
         [
           <SettingOutlined key='setting' onClick={handleClick} />
         ]
       }
       >
-        <Meta title={`Owner: ${owner}`} description={`Title: ${title}`} />
+        <p style={{ fontWeight: "bold", fontSize: "16px" }}>
+        {`Author: ${owner}`} <br />{`Book: ${name}`} <br /> 
+        {`Genre: ${genre}`} <br />
+        {`Pages: ${number_of_pages}`} <br />
+          </p>
         <Footer>
           <p style={{ fontWeight: "bold", fontSize: "16px" }}>
-            Cource is active:{`${isActive?'Yes':'No'}`} <br /> Cource's price:
-            {price} <br /> 
+            Amount of available books:{`${number_of_copies}`} <br /> 
+            Condition : {condition} <br/>
+            
+            Book's  weekly rent price:
+            {original_weekly_rent_price}$ <br /> 
           </p>
-          {certification ? (
-            <>
-            <p style={{ fontWeight: "bold", fontSize: "16px" }}>
-              This cource considers passing certification
-            </p>
-            <p style={{ fontWeight: "bold", fontSize: "16px" }}>
-            Certification's exam date:{`${certification.receiveDate}`} <br /> Demanded result to pass:
-            {certification.result} <br /> 
-          </p>
-          </>
-          ) : (
-            <></>
-          )}
+         
         </Footer>
       </CardStyled>
     </ItemWrapper>
