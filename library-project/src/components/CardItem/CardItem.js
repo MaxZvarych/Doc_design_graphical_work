@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import { useHistory } from "react-router-dom";
 import course from "../../Icons/course.jpg";
-import {getAllUsers, deleteBook} from "../../containers/utils/Api"
+import {getUser, deleteBook, getAuthor} from "../../containers/utils/Api"
 
 import {
   DeleteOutlined,
@@ -16,7 +16,7 @@ const CardItem = ({
   imageSrc = course,
   number_of_copies = 40,
   original_weekly_rent_price = "30000$",
-  owner = "Masya",
+  owner = 1,
   name = "Nice book",
   genre="Fantasy",
   condition='Minor damage',
@@ -26,16 +26,19 @@ const CardItem = ({
 }) => {
   let history = useHistory();
   let myStorage = window.localStorage;
-
+  const [bookAuthor, setBookAuthor] = useState('');
   const [userType, setUserType] = useState('user')
 
  useEffect(() => {
   async function getCurrentUserType(){
-    const userEmail=myStorage.getItem(`ActiveUser`);
-    const users= await getAllUsers();
-    const user=users.find((el)=>el.email===userEmail);
-  setUserType(user.is_admin?'admin':null)
-}
+    const userID= myStorage.getItem('ActiveUser')
+    const user= await getUser(userID);
+      getAuthor(owner).then((res)=>{
+        setBookAuthor(`${res.name} ${res.last_name}`)
+      })
+      setUserType(user.is_admin?'admin':null)
+    }
+ 
   getCurrentUserType()
  }, [])
  
@@ -74,7 +77,7 @@ const CardItem = ({
       }
       >
         <p style={{ fontWeight: "bold", fontSize: "16px" }}>
-        {`Author: ${owner}`} <br />{`Book: ${name}`} <br /> 
+        {`Author: ${bookAuthor}`} <br />{`Book: ${name}`} <br /> 
         {`Genre: ${genre}`} <br />
         {`Pages: ${number_of_pages}`} <br />
           </p>

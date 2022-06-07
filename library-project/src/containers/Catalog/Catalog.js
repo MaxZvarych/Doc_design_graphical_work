@@ -7,7 +7,7 @@ import {
 } from "./Catalog.styled";
 import CardItem from "../../components/CardItem/CardItem";
 import "antd/dist/antd.css";
-import {  getAllBooks } from "../utils/Api";
+import {  getAllBooks,getAuthor } from "../utils/Api";
 import LoadElement from "../../components/loading/LoadElement";
 
 const Catalog = () => {
@@ -43,12 +43,6 @@ const Catalog = () => {
     });
   };
 
-  const fetchAuthor= async (id)=>{
-    getAuthor(id).then((res)=>{
-      console.log(res)
-      return res
-    })
-  }
 
   return (
     <Wrapper>
@@ -56,11 +50,11 @@ const Catalog = () => {
         <>
           <CardWrapper>
             {cources.map(
-              ({ id,author,original_weekly_rent_price,number_of_copies,condition,name,genre,number_of_pages }, index) => {
-                // const bookOwner= fetchAuthor(author)
+               ({ id,author,original_weekly_rent_price,number_of_copies,condition,name,genre,number_of_pages }, index) => {
+              
                 return (
                     <CardItem
-                    owner="JK Rowling"
+                    owner={author}
                     original_weekly_rent_price={original_weekly_rent_price}
                     number_of_copies={number_of_copies}
                       id={id}

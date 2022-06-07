@@ -4,19 +4,19 @@ import {
   Wrapper,
   InfoWrapper,
   ButtonsWrapper,
-  ItemImage,
+  PaymentImage,
   Description,
   SecurityText,
   SecurityplaceHolderNamecvv,
   DescriptionFirst,
   ButtonscvvWrapper,
-  ItemButton,
+  PaymentButton,
   FormWrapper
-} from "./Item.styled";
+} from "./Payment.styled";
 import security from "../../../Icons/background2.jpg"; 
 import {  getBook, postRecord } from "../../utils/Api";
 
-const Item = () => {
+const Payment = () => {
   const findBook = async(id) => {
     const book= await getBook(id);
     console.log(book)
@@ -53,7 +53,7 @@ const Item = () => {
   setBook(result)
 }
   fillbookData()
-  const userIdentifier=myStorage.getItem(`ActiveUser`);
+  const userIdentifier=myStorage.getPayment(`ActiveUser`);
   setUserId(userIdentifier)
  }, [])
 
@@ -84,7 +84,7 @@ const Item = () => {
   return (
     <Wrapper>
       <InfoWrapper>
-        <ItemImage
+        <PaymentImage
           src={security}
           alt='Logo_image'
           width='400px'
@@ -153,11 +153,11 @@ const Item = () => {
       </InfoWrapper>
       <ButtonscvvWrapper> 
         <ButtonsWrapper>
-          <ItemButton onClick={handleClick}>Go back</ItemButton> 
+          <PaymentButton onClick={handleClick}>Go back</PaymentButton> 
         </ButtonsWrapper>
       </ButtonscvvWrapper>
     </Wrapper>
   );
 };
 
-export default Item;
+export default Payment;

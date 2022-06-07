@@ -9,6 +9,8 @@ const baseUserURL =
   "http://127.0.0.1:8000/users/";
 const baseTokenUrl =
   "http://127.0.0.1:8000/token/";
+const baseRecordsUrl =
+  "http://127.0.0.1:8000/rent_records/";
 
   const token= localStorage.getItem('AccessToken')
 
@@ -17,7 +19,16 @@ const baseTokenUrl =
 export const getAllBooks = async () => {
   try {
     let responseData = await axios.get(`${baseBooksURL}`,{ headers: {"Authorization" : `Bearer ${token}`} });
-    console.log(responseData);
+    return responseData.data;
+  } catch {
+    console.log("error, cant fetch data");
+  }
+};
+
+export const getBook = async (id) => {
+  try {
+    let responseData = await axios.get(`${baseBooksURL}${id}/`,{ headers: {"Authorization" : `Bearer ${token}`} });
+    // console.log(responseData);
     return responseData.data;
   } catch {
     console.log("error, cant fetch data");
@@ -26,7 +37,7 @@ export const getAllBooks = async () => {
 
 export const deleteBook = async (id) => {
   try {
-    let responseData = await axios.delete(`${baseBooksURL}${id}`,{ headers: {"Authorization" : `Bearer ${token}`} });
+    let responseData = await axios.delete(`${baseBooksURL}${id}/`,{ headers: {"Authorization" : `Bearer ${token}`} });
     console.log(responseData);
     return responseData.data;
   } catch {
@@ -38,8 +49,8 @@ export const deleteBook = async (id) => {
 
 export const getAuthor = async (id) => {
   try {
-    let responseData = await axios.get(`${baseAuthorURL}${id}`,{ headers: {"Authorization" : `Bearer ${token}`} });
-    console.log(responseData);
+    let responseData = await axios.get(`${baseAuthorURL}${id}/`,{ headers: {"Authorization" : `Bearer ${token}`} });
+    // console.log(responseData);
     return responseData.data;
   } catch {
     console.log("error, cant fetch data");
@@ -51,11 +62,13 @@ export const getAuthor = async (id) => {
 
 export const signIn = async ({ email, password}) => {
   console.log(email,password)
+  // const additionalToken='eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU1MjA2NjE0LCJpYXQiOjE2NTQ2MDE4MTQsImp0aSI6IjU3OTVkM2NhOWNkMjQ4MmQ4NzFjZDc1ZWE4N2RjY2VlIiwidXNlcl9pZCI6MX0.eeSan0V2iVgFbX-XBsIuc-eNQA9RYmuEE146poIjlo4'
+
   try {
     let responseData = await axios.post(`${baseTokenUrl}`,{
       email: `${email}`,
       password: `${password}`
-    },{ headers: {"Authorization" : `Bearer ${token}`} });
+    });
     console.log(responseData);
     return responseData.data;
   } catch(error) {
@@ -65,9 +78,21 @@ export const signIn = async ({ email, password}) => {
 
 //USERS
 export const getAllUsers = async () => {
+  const additionalToken='eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU1MjA2NjE0LCJpYXQiOjE2NTQ2MDE4MTQsImp0aSI6IjU3OTVkM2NhOWNkMjQ4MmQ4NzFjZDc1ZWE4N2RjY2VlIiwidXNlcl9pZCI6MX0.eeSan0V2iVgFbX-XBsIuc-eNQA9RYmuEE146poIjlo4'
+
+  try {
+    let responseData = await axios.get(`${baseUserURL}`,{ headers: {"Authorization" : `Bearer ${token?token:additionalToken}`} });
+    // console.log(responseData);
+    return responseData.data;
+  } catch {
+    console.log("error, cant fetch data");
+  }
+};
+
+export const getUser = async (id) => {
  
   try {
-    let responseData = await axios.get(`${baseUserURL}`,{ headers: {"Authorization" : `Bearer ${token}`} });
+    let responseData = await axios.get(`${baseUserURL}${id}/`,{ headers: {"Authorization" : `Bearer ${token}`} });
     // console.log(responseData);
     return responseData.data;
   } catch {
@@ -76,7 +101,6 @@ export const getAllUsers = async () => {
 };
 
 export const postUser = async ({  status, email, firstName, lastName, password}) => {
-  // const json = JSON.stringify(body);
  
   try {
     let responseData = await axios.post(`${baseUserURL}`,{
@@ -85,7 +109,7 @@ export const postUser = async ({  status, email, firstName, lastName, password})
       last_name: `${lastName}`,
       status: status?`${status}`:status,
       password: `${password}`
-    },{ headers: {"Authorization" : `Bearer ${token}`} });
+    });
     console.log(responseData);
     return responseData.data;
   } catch(error) {
@@ -93,10 +117,10 @@ export const postUser = async ({  status, email, firstName, lastName, password})
   }
 };
 
-//PAYMENTS
-export const getAllPayments = async () => {
+//Records 
+export const getAllRecords = async () => {
   try {
-    let responseData = await axios.get(`${basePaymentURL}/get-all`);
+    let responseData = await axios.get(`${baseRecordsUrl}`);
     console.log(responseData);
     return responseData.data;
   } catch {
@@ -104,9 +128,9 @@ export const getAllPayments = async () => {
   }
 };
 
-export const buyCourse = async (courseId,paymentId) => {
+export const deleteRecord = async (id) => {
   try {
-    let responseData = await axios.get(`${basePaymentURL}/buy-course/{paymentId}/{courseId}?paymentId=${paymentId}&courseId=${courseId}`);
+    let responseData = await axios.delete(`${baseRecordsUrl}/${id}/`);
     console.log(responseData);
     return responseData.data;
   } catch {
@@ -114,30 +138,10 @@ export const buyCourse = async (courseId,paymentId) => {
   }
 };
 
-export const deletePayment = async (id) => {
-  try {
-    let responseData = await axios.delete(`${basePaymentURL}/delete/{id}?id=${id}`);
-    console.log(responseData);
-    return responseData.data;
-  } catch {
-    console.log("error, cant fetch data");
-  }
-};
-
-export const updatePayment = async (id,body) => {
-  try {
-    let responseData = await axios.put(`${basePaymentURL}/update/{id}?id=${id}`,body);
-    console.log(responseData);
-    return responseData.data;
-  } catch {
-    console.log("error, cant fetch data");
-  }
-};
-
-export const postPayment = async (body) => {
+export const postRecord = async (body) => {
   // const json = JSON.stringify(body);
   try {
-    let responseData = await axios.post(`${basePaymentURL}/create`, body);
+    let responseData = await axios.post(`${baseRecordsUrl}`, body);
     console.log(responseData);
     return responseData.data;
   } catch {

@@ -25,12 +25,7 @@ const Home = () => {
     });
   };
 
-  const fetchAuthor= async (id)=>{
-    getAuthor(id).then((res)=>{
-      console.log(res)
-      return res
-    })
-  }
+  
   useEffect(() => {
     if (books.length === 0) {
       refetchAllBooks();
@@ -75,10 +70,10 @@ const Home = () => {
       </Heading>
       <CardWrapper>
         {books.map(({ id,author,original_weekly_rent_price,number_of_copies,condition,name,genre,number_of_pages }) => {
-          // const bookOwner= fetchAuthor(author)
+          
           return(
           <CardItem
-          owner="JK Rowling"
+          owner={author}
           original_weekly_rent_price={original_weekly_rent_price}
           number_of_copies={number_of_copies}
             id={id}

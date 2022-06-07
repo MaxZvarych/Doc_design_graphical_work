@@ -25,14 +25,12 @@ const LogIn = () => {
     history.push("/signup");
   };
 
-  const checkIfUserExist = async (email, password) => {
+  const checkIfUserExist = async (email) => {
     const users= await getAllUsers();
-    const user=users.find((el)=>`${el.firstName} ${el.lastName}`===email);
-    console.log(user)
-    myStorage.setItem(`ActiveUser`, user.email);
+    const user=users.find((el)=>el.email===email);
+    myStorage.setItem(`ActiveUser`, user.id);
     if(user) {
       console.log(user.id)
-      myStorage.setItem(`${user.firstName} ${user.lastName}`, password);
       return true
     }
     return false
@@ -60,9 +58,8 @@ const LogIn = () => {
               async function logUserProps(email,password){
               
               const credentials = await signIn({email,password});
-              console.log(credentials)
-             if(credentials){ 
-               myStorage.setItem(`ActiveUser`, email);
+              const userExist= await checkIfUserExist(email);
+             if(credentials && userExist){ 
                myStorage.setItem(`AccessToken`, credentials.access);
                myStorage.setItem(`RefreshToken`, credentials.refresh);
               myStorage.setItem("isAuthorized", true);
