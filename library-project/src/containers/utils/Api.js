@@ -117,6 +117,19 @@ export const postUser = async ({  status, email, firstName, lastName, password})
   }
 };
 
+export const updateUser = async ({id,balance}) => {
+ 
+  try {
+    let responseData = await axios.patch(`${baseUserURL}${id}/`,{
+      balance: `${balance}`
+    },{ headers: {"Authorization" : `Bearer ${token}`} });
+    console.log(responseData);
+    return responseData.data;
+  } catch(error) {
+    console.log("error, cant post data", error);
+  }
+};
+
 //Records 
 export const getAllRecords = async () => {
   try {
@@ -141,10 +154,11 @@ export const deleteRecord = async (id) => {
 export const postRecord = async (body) => {
   // const json = JSON.stringify(body);
   try {
-    let responseData = await axios.post(`${baseRecordsUrl}`, body);
+    let responseData = await axios.post(`${baseRecordsUrl}`, body,{ headers: {"Authorization" : `Bearer ${token}`} });
     console.log(responseData);
     return responseData.data;
   } catch {
     console.log("error, cant fetch data");
+    return "Not enough money on balance"
   }
 };

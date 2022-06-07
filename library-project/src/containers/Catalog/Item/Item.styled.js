@@ -18,7 +18,7 @@ export const InfoWrapper = styled.div`
   margin-top: 5vh;
 `;
 
-export const ButtonscvvWrapper = styled.div`
+export const ButtonsweeksNumberWrapper = styled.div`
   display: flex;
   justify-content: space-around;
 `;
@@ -50,7 +50,7 @@ export const Description = styled.div`
   justify-content: space-between;
 `;
 
-export const SecurityplaceHolderNamecvv = styled.p`
+export const BookName = styled.p`
   font-size: 20px;
   font-weight: bold;
   color: #000000;

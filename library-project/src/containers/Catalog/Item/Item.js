@@ -7,9 +7,9 @@ import {
   ItemImage,
   Description,
   SecurityText,
-  SecurityplaceHolderNamecvv,
+  BookName,
   DescriptionFirst,
-  ButtonscvvWrapper,
+  ButtonsweeksNumberWrapper,
   ItemButton,
   FormWrapper
 } from "./Item.styled";
@@ -39,11 +39,11 @@ const Item = () => {
   };
 
   const [book, setBook] = useState({})
-  const [cardNumber, setCardNumber] = useState("");
-  const [cvv, setCvv] = useState("341");
-  const [placeHolderName, setPlaceHolderName] = useState("Maksym-Fedir Zvarych");
-  const [receiver, setReceiver] = useState("NiceGuy");
-  const [expirationDate, setExpirationDate] = useState("22.2.2222");
+  const [recordInfo, setRecordInfo] = useState(false)
+  const [weeksNumber, setWeeksNumber] = useState(4);
+  const [dateCreated, setDateCreated] = useState(Date.now());
+  const [preview, setPreview] = useState(false);
+  const [previewData, setPreviewData] = useState({});
   const [userId, setUserId] = useState('')
 
  useEffect(() => {
@@ -59,28 +59,31 @@ const Item = () => {
 
  async function submitData(event) {
   event.preventDefault();
-  const payment = await postPayment({ cardNumber,cvv,placeHolderName,receiver,expirationDate, userID:userId })
-  if (payment) {
-    console.log(payment)
-    // const Boughtbook = await buybook(parseID(),payment.id)
-    // console.log(Boughtbook)
-    if(Boughtbook)
-    {
-      history.push(`/success?BoughtbookId=${Boughtbook.id}`);
+  const record = await postRecord({ book:book.id,weeks_number:weeksNumber,date_created:dateCreated,opened:!preview })
+  console.log(record, typeof(record), record && typeof(record)!='string')
+  if (record && typeof(record)!=="string") {
+    setRecordInfo(record)
+    if(record.opened){
+      history.push(`/success`);
       window.location.reload();
+    }
+    else{
+      setPreviewData({rentPrice:record.rent_price, collateral_price:record.collateral_price})
+    }
   }
   else{
-    history.push("/home");
-    window.location.reload();
+    alert("You don't have eough money on your balance, redirecting to payment page...")
+    setTimeout(() => { 
+      history.push("/payment");
+      window.location.reload();
+    }, 3000);
+   
   }
-}
-
-
 }
  
  const name = `${book.name}`;
  const text =
-   "Here you can fill in your payment data to buy this book"; 
+   "Here you can create an order for renting this book"; 
   return (
     <Wrapper>
       <InfoWrapper>
@@ -92,70 +95,62 @@ const Item = () => {
         />
         <Description>
           <DescriptionFirst>
-            <SecurityplaceHolderNamecvv>{name}</SecurityplaceHolderNamecvv>
+            <BookName>{name} <br/> Collateral price: {book.original_collateral_price} <br/> Price for week rent: {book.original_weekly_rent_price}</BookName>
             <SecurityText>{text}</SecurityText>
           </DescriptionFirst>
           <FormWrapper>
-            <h1>Please fill in your payment data:</h1>
+            <h1>Please fill in your order data:</h1>
                 <form onSubmit={(e)=>submitData(e)}>
-                  <label> Card Number</label>
 
+                  <label>When do you want to take a book?</label>
                   <input
-                    onChange={(e) => setCardNumber(e.target.value)}
-                    name='bookcardNumber'
-                    placeHolderName='text'
-                    placeholder=' cardNumber'
-                    value={cardNumber}
-                  />
-
-                  <label>Expiration Date</label>
-                  <input
-                    onChange={(e) => setExpirationDate(e.target.value)}
-                    name='expirationDateID'
+                    onChange={(e) => setDateCreated(e.target.value)}
+                    name='dateCreated'
                     placeHolderName='string'
-                    placeholder='expirationDate'
+                    placeholder='dateCreated'
                   />
 
-                  <label>Payment's receiver(must be same as book owner)</label>
+                 
+
+                  <label>weeksNumber</label>
 
                   <input
-                    onChange={(e) => {
-                      setReceiver(e.target.value)
-                      }}
-                    name='receiver'
-                    placeholder='receiver'
+                    onChange={(e) => setWeeksNumber(Number(e.target.value))}
+                    name='weeksNumber'
                     placeHolderName='number'
+                    placeholder='  weeksNumber'
+                    type='number'
                   />
 
-                  <label>CVV</label>
+                  <label>Do you want to preview renting conditions?</label>
 
                   <input
-                    onChange={(e) => setCvv(e.target.value)}
-                    name=' cvv'
+                    onChange={(e) => setPreview(Number(e.target.checked))}
+                    name='weeksNumber'
                     placeHolderName='number'
-                    placeholder='  cvv'
+                    placeholder='  weeksNumber'
+                    type="checkbox"
                   />
-
-                
-
-                  <label>PlaceHolder Name(name on your card)</label>
-
-                  <input
-                  onChange={(e) => setPlaceHolderName(e.target.value)}
-                  name='placeHolderName'
-                  placeHolderName='string'
-                  placeholder='placeHolderName'  />
 
                   <button placeHolderName='submit' type='submit'>Submit</button>
                 </form>
               </FormWrapper>
         </Description>
+        {preview && recordInfo?
+        (
+        <Description style={{justifyContent: "flex-start", border:"4px rgb(227,119,0) double", height:"15vh"}}> 
+        <BookName> Preview order information(including discounts):</BookName> 
+        <SecurityText>Rent price for {weeksNumber} weeks for this book: {previewData.rentPrice}</SecurityText>
+        <SecurityText>Collateral price for this book: {previewData.collateral_price}</SecurityText>
+        </Description>
+        ):<></>
+        }
       </InfoWrapper>
-      <ButtonscvvWrapper> 
+      <ButtonsweeksNumberWrapper> 
         <ButtonsWrapper>
           <ItemButton onClick={handleClick}>Go back</ItemButton> 
         </ButtonsWrapper>
-      </ButtonscvvWrapper>
+      </ButtonsweeksNumberWrapper>
     </Wrapper>
   );
 };

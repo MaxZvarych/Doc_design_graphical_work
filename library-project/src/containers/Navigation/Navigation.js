@@ -16,6 +16,7 @@ import Cart from "../Cart/Cart";
 import Catalog from "../Catalog/Catalog";
 import Item from "../Catalog/Item/Item";
 import Checkout from "../Ckeckout/Checkout";
+import Payment from "../Payment/Payment";
 import Success from "../Ckeckout/Success/Success";
 import SignUp from "../Authorization/SignUp/SignUp";
 import LogIn from "../Authorization/LogIn/LogIn";
@@ -45,10 +46,18 @@ const Navigation = () => {
                     Catalog
                   </NavLink>
                 </li>
+                <li>
+                  <NavLink exact to="/payment" activeClassName="selected">
+                    Payment
+                  </NavLink>
+                </li>
               </ul>
               <Switch>
                 <Route path="/catalog">
                   <Catalog></Catalog>
+                </Route>
+                <Route path="/payment">
+                  <Payment></Payment>
                 </Route>
                 <Route path="/item">
                   <Item></Item>

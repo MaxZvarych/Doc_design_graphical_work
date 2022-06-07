@@ -13,60 +13,43 @@ import {
   PaymentButton,
   FormWrapper
 } from "./Payment.styled";
-import security from "../../../Icons/background2.jpg"; 
-import {  getBook, postRecord } from "../../utils/Api";
+import security from "../../Icons/background2.jpg"; 
+import { updateUser, getUser } from "../utils/Api";
 
 const Payment = () => {
-  const findBook = async(id) => {
-    const book= await getBook(id);
-    console.log(book)
-    return book;
-  };
-
   let myStorage = window.localStorage;
   let history = useHistory();
-
-  const parseID = () => {
-    let url = window.location.href;
-    const splitted = url.split("?id=");
-    return splitted[1];
-  };
-
- 
 
   const handleClick = () => {
     history.push(`/catalog`);
   };
 
-  const [book, setBook] = useState({})
   const [cardNumber, setCardNumber] = useState("");
   const [cvv, setCvv] = useState("341");
+  const [balance, setBalance] = useState(300);
+  const [userId, setUserId] = useState('');
   const [placeHolderName, setPlaceHolderName] = useState("Maksym-Fedir Zvarych");
   const [receiver, setReceiver] = useState("NiceGuy");
   const [expirationDate, setExpirationDate] = useState("22.2.2222");
-  const [userId, setUserId] = useState('')
+ 
 
  useEffect(() => {
-  async function fillbookData(){
-  const idFromUrl=parseID();
-  const result= await findBook(idFromUrl);
-  setBook(result)
-}
-  fillbookData()
-  const userIdentifier=myStorage.getPayment(`ActiveUser`);
-  setUserId(userIdentifier)
+    async function fillUserData(){
+        const userIdentifier=myStorage.getItem(`ActiveUser`);
+        const user = await getUser(userIdentifier)
+        setBalance(Number(user.balance))
+        setUserId(userIdentifier)
+      }
+        fillUserData()
+ 
  }, [])
 
  async function submitData(event) {
   event.preventDefault();
-  const payment = await postPayment({ cardNumber,cvv,placeHolderName,receiver,expirationDate, userID:userId })
+  const payment = await updateUser({ id:userId, balance })
   if (payment) {
     console.log(payment)
-    // const Boughtbook = await buybook(parseID(),payment.id)
-    // console.log(Boughtbook)
-    if(Boughtbook)
-    {
-      history.push(`/success?BoughtbookId=${Boughtbook.id}`);
+      history.push(`/success`);
       window.location.reload();
   }
   else{
@@ -75,12 +58,8 @@ const Payment = () => {
   }
 }
 
-
-}
- 
- const name = `${book.name}`;
  const text =
-   "Here you can fill in your payment data to buy this book"; 
+   "Here you can fill in your payment data to rent some book"; 
   return (
     <Wrapper>
       <InfoWrapper>
@@ -92,8 +71,7 @@ const Payment = () => {
         />
         <Description>
           <DescriptionFirst>
-            <SecurityplaceHolderNamecvv>{name}</SecurityplaceHolderNamecvv>
-            <SecurityText>{text}</SecurityText>
+            <SecurityplaceHolderNamecvv>{text}</SecurityplaceHolderNamecvv>
           </DescriptionFirst>
           <FormWrapper>
             <h1>Please fill in your payment data:</h1>
@@ -134,6 +112,16 @@ const Payment = () => {
                     name=' cvv'
                     placeHolderName='number'
                     placeholder='  cvv'
+                  />
+
+                  <label>Amount to add</label>
+
+                  <input
+                    onChange={(e) => setBalance(Number(balance)+Number(e.target.value))}
+                    name='balance'
+                    placeHolderName='number'
+                    placeholder='balance'
+                    type='number'
                   />
 
                 
