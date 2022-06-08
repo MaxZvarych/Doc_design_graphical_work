@@ -38,7 +38,7 @@ export const getBook = async (id) => {
 export const deleteBook = async (id) => {
   try {
     let responseData = await axios.delete(`${baseBooksURL}${id}/`,{ headers: {"Authorization" : `Bearer ${token}`} });
-    console.log(responseData);
+    // console.log(responseData);
     return responseData.data;
   } catch {
     console.log("error, cant fetch data");
@@ -69,7 +69,7 @@ export const signIn = async ({ email, password}) => {
       email: `${email}`,
       password: `${password}`
     });
-    console.log(responseData);
+    // console.log(responseData);
     return responseData.data;
   } catch(error) {
     console.log("error, cant post data", error);
@@ -110,7 +110,7 @@ export const postUser = async ({  status, email, firstName, lastName, password})
       status: status?`${status}`:status,
       password: `${password}`
     });
-    console.log(responseData);
+    // console.log(responseData);
     return responseData.data;
   } catch(error) {
     console.log("error, cant post data", error);
@@ -123,7 +123,7 @@ export const updateUser = async ({id,balance}) => {
     let responseData = await axios.patch(`${baseUserURL}${id}/`,{
       balance: `${balance}`
     },{ headers: {"Authorization" : `Bearer ${token}`} });
-    console.log(responseData);
+    // console.log(responseData);
     return responseData.data;
   } catch(error) {
     console.log("error, cant post data", error);
@@ -131,10 +131,10 @@ export const updateUser = async ({id,balance}) => {
 };
 
 //Records 
-export const getAllRecords = async () => {
+export const getAllRecords = async (userId) => {
   try {
-    let responseData = await axios.get(`${baseRecordsUrl}`);
-    console.log(responseData);
+    let responseData = await axios.get(`${baseRecordsUrl}?only_active=1&user_id=${userId}`,{ headers: {"Authorization" : `Bearer ${token}`} });
+    // console.log(responseData);
     return responseData.data;
   } catch {
     console.log("error, cant fetch data");
@@ -143,8 +143,8 @@ export const getAllRecords = async () => {
 
 export const deleteRecord = async (id) => {
   try {
-    let responseData = await axios.delete(`${baseRecordsUrl}/${id}/`);
-    console.log(responseData);
+    let responseData = await axios.delete(`${baseRecordsUrl}/${id}/`,{ headers: {"Authorization" : `Bearer ${token}`} });
+    // console.log(responseData);
     return responseData.data;
   } catch {
     console.log("error, cant fetch data");
@@ -155,7 +155,7 @@ export const postRecord = async (body) => {
   // const json = JSON.stringify(body);
   try {
     let responseData = await axios.post(`${baseRecordsUrl}`, body,{ headers: {"Authorization" : `Bearer ${token}`} });
-    console.log(responseData);
+    // console.log(responseData);
     return responseData.data;
   } catch {
     console.log("error, cant fetch data");

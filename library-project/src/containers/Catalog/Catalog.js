@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
   Wrapper,
-  CardWrapper,
-  AddCourceWrapper,
-  FormWrapper,
+  CardWrapper, 
 } from "./Catalog.styled";
 import CardItem from "../../components/CardItem/CardItem";
 import "antd/dist/antd.css";
@@ -12,23 +10,16 @@ import LoadElement from "../../components/loading/LoadElement";
 
 const Catalog = () => {
   let emptyArray = [];
-  const [cources, setCources] = useState(emptyArray);
-  const [addCourceState, setAddCourceState] = useState('');
-  const [owner, setOwner] = useState("");
-  const [id, setId] = useState("");
-  const [price, setPrice] = useState("0$");
-  const [title, setTitle] = useState("Nice course");
-  const [isActive, setIsActive] = useState(false);
-  const [certification, setCertification] = useState({receiveDate:"22.2.2222", result:"excellent"});
+  const [books, setBooks] = useState(emptyArray);
   
   useEffect(() => {
-    console.log(cources)
-    if (cources.length === 0) {
+    console.log(books)
+    if (books.length === 0) {
       getAllBooks().then((res) => {
         if (res !== undefined) {
           console.log(res)
 
-          setCources(res);
+          setBooks(res);
         }
       });
     }
@@ -38,7 +29,7 @@ const Catalog = () => {
     getAllBooks().then((res) => {
       if (res !== undefined) {
         console.log(res)
-        setCources(res);
+        setBooks(res);
       }
     });
   };
@@ -46,10 +37,10 @@ const Catalog = () => {
 
   return (
     <Wrapper>
-      {cources.length !== 0 ? (
+      {books.length !== 0 ? (
         <>
           <CardWrapper>
-            {cources.map(
+            {books.map(
                ({ id,author,original_weekly_rent_price,number_of_copies,condition,name,genre,number_of_pages }, index) => {
               
                 return (

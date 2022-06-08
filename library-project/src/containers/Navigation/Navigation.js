@@ -20,6 +20,7 @@ import Payment from "../Payment/Payment";
 import Success from "../Ckeckout/Success/Success";
 import SignUp from "../Authorization/SignUp/SignUp";
 import LogIn from "../Authorization/LogIn/LogIn";
+import Report from "../Report/Report";
 
 const Navigation = () => {
   let history = useHistory();
@@ -51,8 +52,16 @@ const Navigation = () => {
                     Payment
                   </NavLink>
                 </li>
+                <li>
+                  <NavLink exact to="/report" activeClassName="selected">
+                    Report
+                  </NavLink>
+                </li>
               </ul>
               <Switch>
+                <Route path="/report">
+                  <Report></Report>
+                </Route>
                 <Route path="/catalog">
                   <Catalog></Catalog>
                 </Route>
