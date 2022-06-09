@@ -30,8 +30,9 @@ const Report = () => {
     const userId= myStorage.getItem("ActiveUser")
     getAllRecords(userId).then((res) => {
       if (res !== undefined) {
-        console.log(res)
         setRecords(res);
+
+        
       }
     });
   };

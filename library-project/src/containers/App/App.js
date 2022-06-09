@@ -12,6 +12,7 @@ function App() {
       <Header />
       <Provider store={store}>
         <Navigation></Navigation>
+
       </Provider>
       <Footer />
     </div>

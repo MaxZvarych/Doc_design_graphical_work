@@ -81,14 +81,13 @@ const CardItem = ({
   const reportActions = [
     <DeleteOutlined onClick={()=>handleDeleteReport(reportBook.id)} key='delete' />
   ]
+
+  const today=new Date(Date.now())
  
   const bookIsExpired = ()=>{
     const startDate= new Date(reportBook.dateCreated)
-    console.log(startDate)
     const expirationDate = new Date(startDate.setDate(startDate.getDate()+Number(reportBook.weeksNumber*7)))
-    console.log(expirationDate)
-    const today=new Date(Date.now())
-    console.log(today)
+    
     return today.getTime()>expirationDate.getTime()?true:false
   }
   
