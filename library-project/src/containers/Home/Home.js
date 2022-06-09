@@ -7,7 +7,7 @@ import {
   HomeImage,
   CardWrapper,
 } from "./Home.styled";
-import { getAllBooks, getAuthor } from "../utils/Api";
+import { getAllBooks } from "../utils/Api";
 import CardItem from "../../components/CardItem/CardItem";
 import heading from "../../Icons/heading1.jpg";
 import { BookFilled } from "@ant-design/icons";
@@ -99,6 +99,7 @@ const Home = () => {
           }) => {
             return (
               <CardItem
+                key={id}
                 owner={author}
                 original_weekly_rent_price={original_weekly_rent_price}
                 number_of_copies={number_of_copies}

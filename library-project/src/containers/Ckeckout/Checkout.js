@@ -55,7 +55,7 @@ const Checkout = () => {
             .max(30, "Must be at most 30 characters")
             .required("Please input a value"),
         })}
-        onSubmit={(values) => {
+        onSubmit={() => {
           history.push("/success");
         }}
       >

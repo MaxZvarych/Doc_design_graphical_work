@@ -1,3 +1,5 @@
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import {
@@ -6,7 +8,6 @@ import {
   ButtonsWrapper,
   PaymentImage,
   Description,
-  SecurityText,
   SecurityplaceHolderNamecvv,
   DescriptionFirst,
   ButtonscvvWrapper,

@@ -1,5 +1,4 @@
-import axios from "axios";
-import { getStorageValue, useLocalStorage } from "./Hooks/useLocalStorageHook";
+import axios from "axios"; 
 
 const baseBooksURL = "http://127.0.0.1:8000/books/";
 const baseAuthorURL = "http://127.0.0.1:8000/authors/";

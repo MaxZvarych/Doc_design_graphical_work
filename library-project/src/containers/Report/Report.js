@@ -1,8 +1,9 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import { Wrapper, CardWrapper } from "./Report.styled";
 import CardItem from "../../components/CardItem/CardItem";
 import "antd/dist/antd.css";
-import { getAllRecords, getBook } from "../utils/Api";
+import { getAllRecords } from "../utils/Api";
 import LoadElement from "../../components/loading/LoadElement";
 
 const Report = () => {
@@ -46,10 +47,9 @@ const Report = () => {
                   weeks_number,
                   book,
                 },
-                index
               ) => {
                 return (
-                  <CardItem
+                  <CardItem key={id}
                     reportBook={{
                       recordId: id,
                       collateralPrice: collateral_price,

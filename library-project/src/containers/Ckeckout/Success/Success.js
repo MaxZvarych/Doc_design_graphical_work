@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React  from "react";
 import { CartContainer, ButtonSuccess } from "./Success.styled";
 import { Result } from "antd";
-import { useHistory } from "react-router-dom";
-import { getAllBooks } from "../../utils/Api";
+import { useHistory } from "react-router-dom"; 
 
 const Success = () => {
   let history = useHistory();

@@ -18,8 +18,7 @@ import {
 import { getAllUsers, postUser } from "../../utils/Api";
 
 const SignUp = () => {
-  let history = useHistory();
-  let myStorage = window.localStorage;
+  let history = useHistory(); 
   const toSignIn = () => {
     history.push("/login");
   };
@@ -94,7 +93,7 @@ const SignUp = () => {
             } else {
               setSignUpError("");
               const statusToPass = statusState ? statusState : status;
-              const responseWithCreds = await createUser({
+              await createUser({
                 status: statusToPass,
                 email,
                 firstName,

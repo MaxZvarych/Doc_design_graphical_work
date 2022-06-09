@@ -22,8 +22,7 @@ const Item = () => {
     console.log(book);
     return book;
   };
-
-  let myStorage = window.localStorage;
+ 
   let history = useHistory();
 
   const parseID = () => {
@@ -42,7 +41,6 @@ const Item = () => {
   const [dateCreated, setDateCreated] = useState(Date.now());
   const [preview, setPreview] = useState(false);
   const [previewData, setPreviewData] = useState({});
-  const [userId, setUserId] = useState("");
 
   useEffect(() => {
     async function fillbookData() {
@@ -51,8 +49,6 @@ const Item = () => {
       setBook(result);
     }
     fillbookData();
-    const userIdentifier = myStorage.getItem(`ActiveUser`);
-    setUserId(userIdentifier);
   }, []);
 
   async function submitData(event) {

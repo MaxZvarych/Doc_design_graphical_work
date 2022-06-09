@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React  from "react";
 import {
   LinkingWrapper,
   GlobalWrapper,
@@ -9,10 +9,8 @@ import {
   Switch,
   Route,
   NavLink,
-} from "react-router-dom";
-import { useHistory } from "react-router-dom";
-import Home from "../Home/Home";
-import Cart from "../Cart/Cart";
+} from "react-router-dom"; 
+import Home from "../Home/Home"; 
 import Catalog from "../Catalog/Catalog";
 import Item from "../Catalog/Item/Item";
 import Checkout from "../Ckeckout/Checkout";
@@ -22,14 +20,10 @@ import SignUp from "../Authorization/SignUp/SignUp";
 import LogIn from "../Authorization/LogIn/LogIn";
 import Report from "../Report/Report";
 
-const Navigation = () => {
-  let history = useHistory();
+const Navigation = () => { 
   const myStorage = window.localStorage;
   let authorized = false;
   if (myStorage.getItem("isAuthorized") === "true") authorized = true;
-  const toSignUp = () => {
-    history.push("/signup");
-  };
   return (
     <React.Fragment>
       <Router>

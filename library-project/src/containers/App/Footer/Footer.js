@@ -7,7 +7,7 @@ import {
   SocialNetworksBar,
   FooterImage,
 } from "./Footer.styled";
-import Icon, {
+import  {
   TwitterOutlined,
   InstagramOutlined,
   LinkedinOutlined,
@@ -41,7 +41,7 @@ const Footer = () => {
         </SocialNetworksBar>
         <p>
           Phone: +1 800 559 6580 &nbsp; Email:{" "}
-          <a href="#" class="link">
+          <a href="#" className="link">
             info@bookstore.com
           </a>{" "}
           <br />

@@ -1,3 +1,6 @@
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable react/jsx-key */
+/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import course from "../../Icons/course.jpg";
@@ -80,12 +83,11 @@ const CardItem = ({
         ]
       : [<SettingOutlined key="setting" onClick={handleClick} />];
 
-  const reportActions = [
-    <p style={{ fontWeight: "bold", fontSize: "16px" }}>Close this order</p>,
+  const reportActions = [  
     <DeleteOutlined
       onClick={() => handleDeleteReport(reportBook.id)}
       key="delete"
-    />,
+    /> 
   ];
 
   const today = new Date(Date.now());
@@ -163,7 +165,7 @@ const CardItem = ({
               <p style={{ fontWeight: "bold", fontSize: "16px" }}>
                 Amount of available books:{`${number_of_copies}`} <br />
                 Condition: {condition} <br />
-                Book's weekly rent price:
+                `Book's weekly rent price`:
                 {original_weekly_rent_price}$ <br />
               </p>
             </Footer>

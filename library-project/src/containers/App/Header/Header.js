@@ -16,8 +16,7 @@ import {
   YoutubeOutlined,
   FacebookOutlined,
   LogoutOutlined,
-} from "@ant-design/icons";
-import { useHistory } from "react-router-dom";
+} from "@ant-design/icons"; 
 import logo from "../../../Icons/logo_books_1.png";
 import { getUser } from "../../utils/Api";
 
