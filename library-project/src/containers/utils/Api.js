@@ -156,15 +156,16 @@ export const getAllRecords = async (userId) => {
   }
 };
 
-export const deleteRecord = async (id) => {
+export const deleteRecord = async (id,preview) => {
   try {
-    let responseData = await axios.delete(`${baseRecordsUrl}/${id}/`, {
+    let responseData = await axios.delete(preview?`${baseRecordsUrl}${id}/`:`${baseRecordsUrl}${id}/?paid_fine=1`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     // console.log(responseData);
     return responseData.data;
-  } catch {
+  } catch(error) {
     console.log("error, cant fetch data");
+    return "Not enough money on balance"
   }
 };
 

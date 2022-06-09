@@ -4,6 +4,8 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import course from "../../Icons/course.jpg";
+import {   Tooltip, Modal } from 'antd';
+import { EyeOutlined  } from '@ant-design/icons';
 import {
   getUser,
   deleteBook,
@@ -37,6 +39,16 @@ const CardItem = ({
   const [bookAuthor, setBookAuthor] = useState("");
   const [userType, setUserType] = useState("user");
   const [book, setBook] = useState({});
+  const [previewCloseRecordData, setPreviewCloseRecordData] = useState(false);
+
+  async function fillBalanceForUser() {
+    let userIdentifier = myStorage.getItem(`ActiveUser`);
+    if (userIdentifier) {
+      const user = await getUser(userIdentifier);
+      console.log(user.balance)
+      reportBook.setBalance(user.balance);
+    }
+  }
 
   useEffect(() => {
     async function getCurrentUserType() {
@@ -64,31 +76,33 @@ const CardItem = ({
   };
 
   const handleDelete = async (id) => {
-    const deletedCourse = await deleteBook(id);
+    const deletedBook = await deleteBook(id);
     refreshBooks();
-    return deletedCourse;
+    return deletedBook;
   };
+
+  const handlePreviewDelete = async (id) => {
+    const preview = await deleteRecord(id,true);
+    setPreviewCloseRecordData(preview)
+    return preview;
+  };
+
+  const goToPaymentPage = ()=>{
+    alert(
+      "You don't have eough money on your balance, redirecting to payment page..."
+    );
+    setTimeout(() => {
+      history.push("/payment");
+      window.location.reload();
+    }, 3000);
+  }
 
   const handleDeleteReport = async (id) => {
-    const deletedCourse = await deleteRecord(id);
-    refreshBooks();
-    return deletedCourse;
+    const deletedReport = await deleteRecord(id,false);
+    deletedReport==="Not enough money on balance"?goToPaymentPage():refreshBooks();
+    await fillBalanceForUser();
+    return deletedReport;
   };
-
-  const catalogActions =
-    userType === "admin"
-      ? [
-          <SettingOutlined key="setting" onClick={handleClick} />,
-          <DeleteOutlined onClick={() => handleDelete(id)} key="delete" />,
-        ]
-      : [<SettingOutlined key="setting" onClick={handleClick} />];
-
-  const reportActions = [  
-    <DeleteOutlined
-      onClick={() => handleDeleteReport(reportBook.id)}
-      key="delete"
-    /> 
-  ];
 
   const today = new Date(Date.now());
 
@@ -101,6 +115,53 @@ const CardItem = ({
     );
 
     return today.getTime() > expirationDate.getTime() ? true : false;
+  };
+
+  const catalogActions =
+    userType === "admin"
+      ? [
+          <SettingOutlined key="setting" onClick={handleClick} />,
+          <DeleteOutlined onClick={() => handleDelete(id)} key="delete" />,
+        ]
+      : [<SettingOutlined key="setting" onClick={handleClick} />];
+
+  const reportActions = bookIsExpired()?[  
+    <Tooltip title="Close this order">
+    <DeleteOutlined
+      onClick={() => handleDeleteReport(reportBook.recordId)}
+      key="delete"
+    /> 
+    </Tooltip>,
+    
+    
+      <Tooltip title="Preview order closure details(fine for overdue)">
+    
+      <EyeOutlined
+      onClick={() => handlePreviewDelete(reportBook.recordId)}
+      key="delete"
+    /> 
+    </Tooltip>
+  
+  ]:
+  [  
+    <Tooltip title="Close this order">
+    <DeleteOutlined
+      onClick={() => handleDeleteReport(reportBook.recordId)}
+      key="delete"
+    /> 
+    </Tooltip>,
+  
+  
+  ]
+  ;
+
+  const closePreview = () => {
+    setPreviewCloseRecordData(false);
+  };
+
+  const payFine = () => {
+    handleDeleteReport(reportBook.recordId)
+    setPreviewCloseRecordData(false);
   };
 
   return (
@@ -123,12 +184,16 @@ const CardItem = ({
           <>
             <p style={{ fontWeight: "bold", fontSize: "16px" }}>
               {`Author: ${bookAuthor}`} <br />
-              {`Book: ${book.name}`} <br />
+              {`Book: ${book.name}`}  <br />
             </p>
             <Footer>
               <p style={{ fontWeight: "bold", fontSize: "16px" }}>
                 Rent price:{`${reportBook.rentPrice}`} <br />
                 Collateral price: {reportBook.collateralPrice} <br />
+                <Modal title="Preview fine" visible={previewCloseRecordData} onOk={payFine} onCancel={closePreview} >
+                <h1>It's required to pay this fine: {previewCloseRecordData.detail}$</h1>
+     
+                </Modal>
                 {bookIsExpired() ? (
                   <p
                     style={{

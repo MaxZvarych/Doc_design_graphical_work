@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable react/prop-types */
+import React from "react";
 import {
   HeaderBackground,
   Wrapper,
@@ -18,11 +19,10 @@ import {
   LogoutOutlined,
 } from "@ant-design/icons"; 
 import logo from "../../../Icons/logo_books_1.png";
-import { getUser } from "../../utils/Api";
 
-const Header = () => {
-  const [balance, setBalance] = useState(300);
-  const [userId, setUserId] = useState("");
+
+const Header = ({balance, userId}) => {
+  
   let myStorage = window.localStorage;
   const logout = () => {
     myStorage.setItem("isAuthorized", false);
@@ -32,17 +32,7 @@ const Header = () => {
     window.location.reload();
   };
 
-  useEffect(() => {
-    async function fillUserData() {
-      let userIdentifier = myStorage.getItem(`ActiveUser`);
-      if (userIdentifier) {
-        const user = await getUser(userIdentifier);
-        setBalance(user.balance);
-        setUserId(userIdentifier);
-      }
-    }
-    fillUserData();
-  }, []);
+ 
   return (
     <HeaderBackground>
       <Wrapper>

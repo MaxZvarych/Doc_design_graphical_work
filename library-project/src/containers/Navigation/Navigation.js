@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React  from "react";
 import {
   LinkingWrapper,
@@ -20,7 +21,7 @@ import SignUp from "../Authorization/SignUp/SignUp";
 import LogIn from "../Authorization/LogIn/LogIn";
 import Report from "../Report/Report";
 
-const Navigation = () => { 
+const Navigation = ({setBalance}) => { 
   const myStorage = window.localStorage;
   let authorized = false;
   if (myStorage.getItem("isAuthorized") === "true") authorized = true;
@@ -54,7 +55,7 @@ const Navigation = () => {
               </ul>
               <Switch>
                 <Route path="/report">
-                  <Report></Report>
+                  <Report setBalance={setBalance}></Report>
                 </Route>
                 <Route path="/catalog">
                   <Catalog></Catalog>

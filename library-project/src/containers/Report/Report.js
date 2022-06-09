@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import { Wrapper, CardWrapper } from "./Report.styled";
@@ -6,7 +7,7 @@ import "antd/dist/antd.css";
 import { getAllRecords } from "../utils/Api";
 import LoadElement from "../../components/loading/LoadElement";
 
-const Report = () => {
+const Report = ({setBalance}) => {
   let emptyArray = [];
   const myStorage = window.localStorage;
   const [books, setBooks] = useState(emptyArray);
@@ -57,6 +58,7 @@ const Report = () => {
                       dateCreated: date_created,
                       weeksNumber: weeks_number,
                       bookId: book,
+                      setBalance:setBalance
                     }}
                     refreshBooks={refetchAllRecords}
                   />
