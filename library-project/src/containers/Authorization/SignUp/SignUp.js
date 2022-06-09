@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import * as Yup from "yup";
 import { useHistory } from "react-router-dom";
 import {
@@ -24,29 +24,40 @@ const SignUp = () => {
     history.push("/login");
   };
 
-  const checkIfUserExist = async (email ) => {
-    const users= await getAllUsers();
-    const user=users.find((el)=>el.email===email);
-    if(user) { 
-      return true
+  const checkIfUserExist = async (email) => {
+    const users = await getAllUsers();
+    const user = users.find((el) => el.email === email);
+    if (user) {
+      return true;
     }
-    return false
-  }
-  const createUser = async ({ status,  email, firstName, lastName , password }) =>{
-        
+    return false;
+  };
+  const createUser = async ({
+    status,
+    email,
+    firstName,
+    lastName,
+    password,
+  }) => {
     // myStorage.setItem(`ActiveUser`, email);
     // myStorage.setItem("isAuthorized", true);
-  //  console.log({  status, email, firstName, lastName , password })
-    const responseWithCreds= await postUser({ status , email, firstName, lastName, password});
+    //  console.log({  status, email, firstName, lastName , password })
+    const responseWithCreds = await postUser({
+      status,
+      email,
+      firstName,
+      lastName,
+      password,
+    });
     // console.log(responseWithCreds);
     return responseWithCreds;
-  }
-  const [signUpError, setSignUpError] = useState("")
-  const [statusState, setStatus] = useState("")
+  };
+  const [signUpError, setSignUpError] = useState("");
+  const [statusState, setStatus] = useState("");
 
   useEffect(() => {
-    console.log(signUpError)
-  }, [setSignUpError])
+    console.log(signUpError);
+  }, [setSignUpError]);
   return (
     <GlobalWrapper>
       <Wrapper>
@@ -56,12 +67,11 @@ const SignUp = () => {
             email: "",
             firstName: "",
             lastName: "",
-            status:"librarian",
+            status: "librarian",
             password: "",
             confirmPassword: "",
           }}
           validationSchema={Yup.object({
-           
             email: Yup.string()
               .email("Invalid email address")
               .required("Please input a value"),
@@ -72,36 +82,51 @@ const SignUp = () => {
               .oneOf([Yup.ref("password"), null], "Passwords must match")
               .required("Please input a value"),
           })}
-          onSubmit={ async ({  status, email, firstName, lastName , password },{setSubmitting}) => {
+          onSubmit={async (
+            { status, email, firstName, lastName, password },
+            { setSubmitting }
+          ) => {
             const userFound = await checkIfUserExist(email);
-            console.log(userFound)
-            if(userFound) {
-            setSignUpError("User Existing");
-            setSubmitting(false);
-          }
-          else{
-            setSignUpError("");
-            const statusToPass=statusState?statusState:status
-              const responseWithCreds = await createUser({ status:statusToPass,  email, firstName, lastName, password })
+            console.log(userFound);
+            if (userFound) {
+              setSignUpError("User Existing");
+              setSubmitting(false);
+            } else {
+              setSignUpError("");
+              const statusToPass = statusState ? statusState : status;
+              const responseWithCreds = await createUser({
+                status: statusToPass,
+                email,
+                firstName,
+                lastName,
+                password,
+              });
               history.push("/login");
               window.reload();
-          }
-           
+            }
           }}
         >
           {({ handleSubmit }) => (
             <FormStyled onSubmit={handleSubmit}>
               <InputWrapper>
-             
                 <b>status:</b>
-                <select as="select" name="status" onChange={(e)=>{setStatus(e.target.value)}}
-                style={{height:"20px",minWidth: "25vw",
-                  borderRadius: "8px",
-                  maxWidth: "40vw"}}>       
-             <option value="librarian">Librarian</option>
-             <option value="cultural figure">Cultural figure</option> 
-             <option value="regular customer">Regular customer</option>
-           </select>
+                <select
+                  as="select"
+                  name="status"
+                  onChange={(e) => {
+                    setStatus(e.target.value);
+                  }}
+                  style={{
+                    height: "20px",
+                    minWidth: "25vw",
+                    borderRadius: "8px",
+                    maxWidth: "40vw",
+                  }}
+                >
+                  <option value="librarian">Librarian</option>
+                  <option value="cultural figure">Cultural figure</option>
+                  <option value="regular customer">Regular customer</option>
+                </select>
                 <InputContainer>
                   <b>First Name:</b>
                   <InputComponent
@@ -120,7 +145,7 @@ const SignUp = () => {
                   />
                   <FormikErrorMessage name="lastName" component="div" />
                 </InputContainer>
-               
+
                 <InputContainer>
                   <b>Email:</b>
                   <InputComponent title="Email" name="email" status="email" />
@@ -129,7 +154,7 @@ const SignUp = () => {
                 <InputContainer>
                   <b>Password:</b>
                   <InputComponent
-                  // onChange={(e)=>setPassword(e.target.value)}
+                    // onChange={(e)=>setPassword(e.target.value)}
                     title="Password"
                     name="password"
                     status="password"
@@ -147,10 +172,17 @@ const SignUp = () => {
                 </InputContainer>
               </InputWrapper>
               <AlreadyMemberWrapper>
-              {signUpError==="User Existing"?<h1>This User already exist, please create another one or sign IN</h1>:<></>}
+                {signUpError === "User Existing" ? (
+                  <h1>
+                    This User already exist, please create another one or sign
+                    IN
+                  </h1>
+                ) : (
+                  <></>
+                )}
                 <SignInText onClick={toSignIn}>Sign in</SignInText>
               </AlreadyMemberWrapper>
-              <SignUpButton status="submit"  >SIGN ME UP</SignUpButton>
+              <SignUpButton status="submit">SIGN ME UP</SignUpButton>
             </FormStyled>
           )}
         </FormikStyled>

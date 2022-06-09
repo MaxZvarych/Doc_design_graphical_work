@@ -1,42 +1,35 @@
 import React, { useEffect, useState } from "react";
-import {
-  Wrapper,
-  CardWrapper,
-} from "./Report.styled";
+import { Wrapper, CardWrapper } from "./Report.styled";
 import CardItem from "../../components/CardItem/CardItem";
 import "antd/dist/antd.css";
-import {  getAllRecords, getBook } from "../utils/Api";
+import { getAllRecords, getBook } from "../utils/Api";
 import LoadElement from "../../components/loading/LoadElement";
 
 const Report = () => {
   let emptyArray = [];
-  const myStorage = window.localStorage
+  const myStorage = window.localStorage;
   const [books, setBooks] = useState(emptyArray);
   const [records, setRecords] = useState(emptyArray);
-  
+
   useEffect(() => {
-    const userId= myStorage.getItem("ActiveUser")
+    const userId = myStorage.getItem("ActiveUser");
     if (books.length === 0) {
-        getAllRecords(userId).then((res) => {
+      getAllRecords(userId).then((res) => {
         if (res !== undefined) {
           setRecords(res);
         }
       });
     }
-  },[]);
-
+  }, []);
 
   const refetchAllRecords = async () => {
-    const userId= myStorage.getItem("ActiveUser")
+    const userId = myStorage.getItem("ActiveUser");
     getAllRecords(userId).then((res) => {
       if (res !== undefined) {
         setRecords(res);
-
-        
       }
     });
   };
-
 
   return (
     <Wrapper>
@@ -44,14 +37,30 @@ const Report = () => {
         <>
           <CardWrapper>
             {records.map(
-               ({ id,collateral_price,rent_price,date_created,weeks_number,book   }, index) => {
-              
+              (
+                {
+                  id,
+                  collateral_price,
+                  rent_price,
+                  date_created,
+                  weeks_number,
+                  book,
+                },
+                index
+              ) => {
                 return (
-                    <CardItem
-                    reportBook={{recordId:id,collateralPrice:collateral_price,rentPrice:rent_price,dateCreated:date_created, weeksNumber:weeks_number, bookId:book  }}
+                  <CardItem
+                    reportBook={{
+                      recordId: id,
+                      collateralPrice: collateral_price,
+                      rentPrice: rent_price,
+                      dateCreated: date_created,
+                      weeksNumber: weeks_number,
+                      bookId: book,
+                    }}
                     refreshBooks={refetchAllRecords}
-                    />
-                ) 
+                  />
+                );
               }
             )}
           </CardWrapper>

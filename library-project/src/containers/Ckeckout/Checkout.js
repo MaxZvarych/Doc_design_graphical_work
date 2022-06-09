@@ -21,7 +21,8 @@ const Checkout = () => {
     history.push(`/cart`);
   };
 
-  const phoneRegExp = /^((\+38)?\(?\d{3}\)?[\s-]?(\d{7}|\d{3}[\s-]\d{2}[\s-]\d{2}|\d{3}-\d{4}))$/g;
+  const phoneRegExp =
+    /^((\+38)?\(?\d{3}\)?[\s-]?(\d{7}|\d{3}[\s-]\d{2}[\s-]\d{2}|\d{3}-\d{4}))$/g;
 
   return (
     <CheckoutStyled>

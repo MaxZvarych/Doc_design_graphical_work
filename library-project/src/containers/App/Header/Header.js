@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import {
   HeaderBackground,
   Wrapper,
@@ -6,9 +6,9 @@ import {
   IconBase,
   SocialNetworksBar,
   HeaderImage,
-  LogOut
+  LogOut,
 } from "./Header.styled";
-import { DollarCircleOutlined  } from '@ant-design/icons';
+import { DollarCircleOutlined } from "@ant-design/icons";
 import {
   TwitterOutlined,
   InstagramOutlined,
@@ -19,32 +19,31 @@ import {
 } from "@ant-design/icons";
 import { useHistory } from "react-router-dom";
 import logo from "../../../Icons/logo_books_1.png";
-import {getUser} from '../../utils/Api'
+import { getUser } from "../../utils/Api";
 
 const Header = () => {
   const [balance, setBalance] = useState(300);
-  const [userId, setUserId] = useState('')
+  const [userId, setUserId] = useState("");
   let myStorage = window.localStorage;
   const logout = () => {
     myStorage.setItem("isAuthorized", false);
-    myStorage.setItem(`ActiveUser`, '');
-    myStorage.setItem(`RefreshToken`, '');
-    myStorage.setItem(`AccessToken`, '');
+    myStorage.setItem(`ActiveUser`, "");
+    myStorage.setItem(`RefreshToken`, "");
+    myStorage.setItem(`AccessToken`, "");
     window.location.reload();
   };
 
   useEffect(() => {
-    async function fillUserData(){
-        let userIdentifier=myStorage.getItem(`ActiveUser`);
-        if(userIdentifier){
-        const user = await getUser(userIdentifier)
-        setBalance(user.balance)
-        setUserId(userIdentifier)
-        }
+    async function fillUserData() {
+      let userIdentifier = myStorage.getItem(`ActiveUser`);
+      if (userIdentifier) {
+        const user = await getUser(userIdentifier);
+        setBalance(user.balance);
+        setUserId(userIdentifier);
       }
-        fillUserData()
- 
- }, [])
+    }
+    fillUserData();
+  }, []);
   return (
     <HeaderBackground>
       <Wrapper>
@@ -67,9 +66,16 @@ const Header = () => {
             <IconBase component={LinkedinOutlined} color="#007AB9" />
           </a>
           <LogOut component={LogoutOutlined} onClick={logout} />
-          {userId?(<Slogan style={{border:"none", marginTop:"0"}}><p style={{width:"15vw"}}>Your balance is: {balance} <DollarCircleOutlined /></p></Slogan>):<></>}
+          {userId ? (
+            <Slogan style={{ border: "none", marginTop: "0" }}>
+              <p style={{ width: "15vw" }}>
+                Your balance is: {balance} <DollarCircleOutlined />
+              </p>
+            </Slogan>
+          ) : (
+            <></>
+          )}
         </SocialNetworksBar>
-        
       </Wrapper>
     </HeaderBackground>
   );

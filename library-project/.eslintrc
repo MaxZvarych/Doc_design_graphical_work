@@ -3,33 +3,15 @@
     "browser": true,
     "es6": true
   },
-  "parser": "@typescript-eslint/parser",
+  "parser": "babel-eslint",
   "parserOptions": {
-    "sourceType": "module"
+    "sourceType": "module",
+    "ecmaVersion": 6,
+    "ecmaFeatures": {
+    "experimentalObjectRestSpread": true
+  }
   },
-  "plugins": ["simple-import-sort", "cypress"],
-  "rules": {
-    "simple-import-sort/imports": [
-      "error",
-      {
-        "groups": [
-          [
-            "^react$",
-            "^@*",
-            "^(?!components|contexts|dataInterfaces|pages|public|redux|services)"
-          ],
-          [
-            "components",
-            "contexts",
-            "dataInterfaces",
-            "pages",
-            "public",
-            "redux",
-            "services"
-          ]
-        ]
-      }
-    ]
-  },
-  "extends": ["plugin:cypress/recommended"]
+  "plugins": ["cypress", "react"],
+  "extends": ["eslint:recommended",
+    "plugin:react/recommended","plugin:cypress/recommended"]
 }

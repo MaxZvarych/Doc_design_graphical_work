@@ -71,7 +71,7 @@ export const InputWrapper = styled.div`
   align-items: center;
   flex-direction: column;
   flex-wrap: wrap;
- 
+
   box-shadow: 0 3px 2px #201a1a;
   border: 6px rgb(227, 119, 0) double;
   padding: 10px;

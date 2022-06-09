@@ -23,7 +23,7 @@ export const Slogan = styled.div`
   text-align: center;
   height: 35px;
   font-size: 22px;
-  // width: 300px; 
+  // width: 300px;
   padding: 1vh 26vw 25px 1vw;
 `;
 
@@ -33,7 +33,6 @@ export const SocialNetworksBar = styled.div`
   width: 160px;
   margin: 10px 0;
 `;
-
 
 export const IconBase = styled(Icon)`
   font-size: 25px;

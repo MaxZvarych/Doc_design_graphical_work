@@ -16,7 +16,7 @@ import {
   SignUpText,
   ParagraphStyled,
 } from "./LogIn.styled";
-import { getAllUsers,signIn } from "../../utils/Api";
+import { getAllUsers, signIn } from "../../utils/Api";
 
 const LogIn = () => {
   let history = useHistory();
@@ -26,15 +26,15 @@ const LogIn = () => {
   };
 
   const checkIfUserExist = async (email) => {
-    const users= await getAllUsers();
-    const user=users.find((el)=>el.email===email);
+    const users = await getAllUsers();
+    const user = users.find((el) => el.email === email);
     myStorage.setItem(`ActiveUser`, user.id);
-    if(user) {
-      console.log(user.id)
-      return true
+    if (user) {
+      console.log(user.id);
+      return true;
     }
-    return false
-  }
+    return false;
+  };
   return (
     <GlobalWrapper>
       <Wrapper>
@@ -54,25 +54,23 @@ const LogIn = () => {
               .required("Please input a value"),
           })}
           onSubmit={({ email, password }) => {
-            console.log(email,password)
-              async function logUserProps(email,password){
-              
-              const credentials = await signIn({email,password});
-              const userExist= await checkIfUserExist(email);
-             if(credentials && userExist){ 
-               myStorage.setItem(`AccessToken`, credentials.access);
-               myStorage.setItem(`RefreshToken`, credentials.refresh);
-              myStorage.setItem("isAuthorized", true);
-              history.push("/home");
-              window.location.reload();
-            }else{
-              console.log(`You entered incorrect credentials`)
-              alert(`You entered incorrect credentials`)
+            console.log(email, password);
+            async function logUserProps(email, password) {
+              const credentials = await signIn({ email, password });
+              const userExist = await checkIfUserExist(email);
+              if (credentials && userExist) {
+                myStorage.setItem(`AccessToken`, credentials.access);
+                myStorage.setItem(`RefreshToken`, credentials.refresh);
+                myStorage.setItem("isAuthorized", true);
+                history.push("/home");
+                window.location.reload();
+              } else {
+                console.log(`You entered incorrect credentials`);
+                alert(`You entered incorrect credentials`);
+              }
             }
-            }
-              logUserProps(email,password);
-            
-            
+            logUserProps(email, password);
+
             //  alert("You entered incorrect password");
           }}
         >
@@ -81,11 +79,7 @@ const LogIn = () => {
               <InputWrapper>
                 <InputContainer>
                   <b>Email:</b>
-                  <InputComponent
-                    title="email"
-                    name="email"
-                    type="text"
-                  />
+                  <InputComponent title="email" name="email" type="text" />
                   <FormikErrorMessage name="email" component="div" />
                 </InputContainer>
                 <InputContainer>
