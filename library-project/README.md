@@ -1,3 +1,7 @@
+# first of all make 'git clone'
+
+# Than rean npm install to install all libriries that you need (In the project directory)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
