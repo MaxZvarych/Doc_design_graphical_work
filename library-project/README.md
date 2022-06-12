@@ -1,6 +1,6 @@
 # first of all make 'git clone'
 
-# Than rean npm install to install all libriries that you need (In the project directory)
+# Than run npm install to install all libriries that you need (In the project directory)
 
 # Getting Started with Create React App
 
